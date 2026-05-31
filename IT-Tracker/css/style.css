@@ -63,3 +63,28 @@
     height: auto;
     margin-top: 50px;
 }
+
+.conteiner-main {
+    margin: 60px;
+}
+
+.quadrado-carrossel {
+    background-color: rgb(199, 225, 247);
+    height: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bolinha-slide {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background-color: #2a5298 !important;
+    border: none !important;
+}
+
+.carousel-indicators .active.bolinha-slide {
+    background-color: #2a5298;
+}
