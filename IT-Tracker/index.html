@@ -12,60 +12,69 @@
 <body>
     <header class="azul">
         <div class="conteiner">
-            <nav class="navbar">
+            <nav class="navbar align-items-center">
                 <h1>IT-Tracker</h1>
 
-                <ul class="menu">
+                <ul class="menu mb-0">
                     <li><a class="menu-link ativo" href="#">Home</a></li>
                     <li><a class="menu-link" href="#">Sobre</a></li>
                     <li><a class="menu-link" href="#">Contato</a></li>
                     <li><a class="menu-link" href="#">Fórum</a></li>
-                </ul>  
-                
+                </ul>
+
                 <a href="#">
                     <img class="img-perfil" src="img/account-white-icon.webp" alt="Ícone Perfil">
                 </a>
             </nav>
+
             <div class="row align-items-center">
-            <div class="col-md-6">
-                <div id="carrossel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000">
 
-                    <div class="carousel-indicators bolinhas">
-                        <button type="button" data-bs-target="#carrossel" data-bs-slide-to="0"
-                            class="active bolinha-slide" aria-current="true"></button>
-                        <button type="button" data-bs-target="#carrossel" data-bs-slide-to="1"
-                            class="bolinha-slide"></button>
-                        <button type="button" data-bs-target="#carrossel" data-bs-slide-to="2"
-                            class="bolinha-slide"></button>
-                    </div>
+                <div class="col-md-6">
+                    <div id="carrossel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000">
 
-                    <div class="carousel-inner caixa-carrossel rounded-3">
-                        <div class="carousel-item active">
-                            <div class="quadrado-carrossel">
-                                <p>Slide 1</p>
-                            </div>
+                        <div class="carousel-indicators bolinhas">
+                            <button type="button" data-bs-target="#carrossel" data-bs-slide-to="0"
+                                class="active bolinha-slide" aria-current="true"></button>
+                            <button type="button" data-bs-target="#carrossel" data-bs-slide-to="1"
+                                class="bolinha-slide"></button>
+                            <button type="button" data-bs-target="#carrossel" data-bs-slide-to="2"
+                                class="bolinha-slide"></button>
                         </div>
 
-                        <div class="carousel-item">
-                            <div class="quadrado-carrossel">
-                                <p>Slide 2</p>
+                        <div class="carousel-inner caixa-carrossel rounded-3">
+                            <div class="carousel-item active">
+                                <div class="quadrado-carrossel">
+                                    <p>Slide 1</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="carousel-item">
-                            <div class="quadrado-carrossel">
-                                <p>Slide 3</p>
+                            <div class="carousel-item">
+                                <div class="quadrado-carrossel">
+                                    <p>Slide 2</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <div class="quadrado-carrossel">
+                                    <p>Slide 3</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 bloco-login">
+                    <h2 class="titulo-login">Quer fazer um comentário?</h2>
+                    <h2 class="titulo-login linha-dois">Tem uma pergunta?</h2>
+                    <p class="subtitulo-chamada">Faça seu login ou cadastro para ir para página de comentários.</p>
+
+                    <div class="botoes">
+                        <a href="#" class="botao-login">Login</a>
+                        <a href="#" class="botao-login">Cadastrar</a>
+                    </div>
+                </div>
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        </div>
-
-        
     </header>
 
     <main class="conteiner-main">
@@ -88,7 +97,7 @@
                 </div>
             </div>
         </div>
-        
+
     </main>
 
 </body>
