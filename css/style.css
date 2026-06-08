@@ -133,7 +133,7 @@
         order: 1;
     }
 
-    .navbar > a {
+    .navbar>a {
         order: 2;
     }
 
@@ -160,7 +160,6 @@
     border-radius: 15px;
     padding: 70px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-    
 }
 
 .titulo-login {
@@ -176,7 +175,7 @@
 .texto-input {
     width: 100%;
     border: none;
-    padding: 12px 15px 12px 55px; 
+    padding: 12px 15px 12px 55px;
     border-radius: 8px;
     color: #333;
     margin-top: 5px;
@@ -202,7 +201,7 @@
     margin-top: 40px;
 }
 
-.botao-submit{
+.botao-submit {
     background-color: var(--azul-escuro);
     color: white;
     border: none;
@@ -228,7 +227,7 @@
 }
 
 .link-mudar-tela .decoracao-login {
-    color: var(--amarelo); 
+    color: var(--amarelo);
     text-decoration: underline;
     font-weight: bolder;
 }
