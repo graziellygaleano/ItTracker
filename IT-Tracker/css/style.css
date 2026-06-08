@@ -41,7 +41,7 @@
     padding-left: 50px;
 }
 
-.titulo-login {
+.titulo-comentario {
     color: var(--amarelo);
     font-weight: bold;
     margin-bottom: 5px;
@@ -133,7 +133,7 @@
         order: 1;
     }
 
-    .navbar>a {
+    .navbar > a {
         order: 2;
     }
 
@@ -145,4 +145,90 @@
         margin-top: 15px;
         gap: 20px;
     }
+}
+
+.login {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #2a5298 0%, #6e8bc0 100%);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.caixa-login {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 70px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    
+}
+
+.titulo-login {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.bloco-input {
+    margin-bottom: 20px;
+}
+
+.texto-input {
+    width: 100%;
+    border: none;
+    padding: 12px 15px 12px 55px; 
+    border-radius: 8px;
+    color: #333;
+    margin-top: 5px;
+}
+
+.linha-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.img-icone {
+    width: 22px;
+}
+
+.icone {
+    position: absolute;
+    left: 15px;
+}
+
+.login-submit {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.botao-submit{
+    background-color: var(--azul-escuro);
+    color: white;
+    border: none;
+    padding: 12px 60px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.botao-voltar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.link-voltar {
+    color: white;
+    text-decoration: underline;
+}
+
+.link-mudar-tela {
+    color: var(--amarelo);
+    text-decoration: none;
+}
+
+.link-mudar-tela .decoracao-login {
+    color: var(--amarelo); 
+    text-decoration: underline;
+    font-weight: bolder;
 }
