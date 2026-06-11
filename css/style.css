@@ -9,6 +9,7 @@
     --fundo-azul: #2a5298;
     --amarelo: #f1b83a;
     --azul-escuro: #0d4b8a;
+    --cinza-claro: #ececec;
 }
 
 .azul {
@@ -146,6 +147,95 @@
         gap: 20px;
     }
 }
+
+.espacamento {
+    margin-bottom: 60px;
+}
+
+/* PERGUNTAS FREQUENTES*/
+
+.perguntas-frequentes {
+    margin-top: 60px;
+  
+}
+
+.perguntas-frequentes h1{
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: var(--amarelo);
+    font-weight: bold;
+
+}
+
+.faq {
+    width: 100%;
+    list-style: none;
+}
+
+.faq li {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.faq li label {
+    padding: 15px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: var(--cinza-claro);
+    color: var(--fundo-azul);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+}
+
+.faq li label span {
+    display: inline-block;
+    padding: 8px;
+    background-color: var(--fundo-azul);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.faq li label::before {
+    content: '+';
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+
+.faq input[type=radio]{
+    display: none;
+}
+
+.faq .resposta {
+    color: black;
+    background-color: var(--cinza-claro);
+    padding: 0px 14px;
+    line-height: 32px;
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.faq input[type=radio]:checked + label + .resposta {
+    max-height: 400px;
+    padding: 10px 10px 20px;
+    transition: max-heigth .5s, padding .5s;
+}
+
+.faq input[type=radio]:checked + label::before {
+    content: '-';
+}
+
+.faq input[type=radio]:checked + label span{
+    background-color: var(--amarelo);
+}
+
 
 .login {
     min-height: 100vh;
