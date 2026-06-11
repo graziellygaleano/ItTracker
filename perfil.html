@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Tracker Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="azul">
+        <div class="conteiner">
+            <nav class="navbar align-items-center">
+                <h1>IT-Tracker</h1>
+
+                <ul class="menu mb-0">
+                    <li><a class="menu-link" href="index.html">Home</a></li>
+                    <li><a class="menu-link" href="#">Sobre</a></li>
+                    <li><a class="menu-link" href="#">Contato</a></li>
+                    <li><a class="menu-link" href="#">Fórum</a></li>
+                </ul>
+
+                <a href="perfil.html">
+                    <img class="img-perfil" src="img/account-white-icon.webp" alt="Ícone Perfil">
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="conteiner-perfil ">
+        <div class="row justify-content-center">
+            <div class="col-11">
+
+                <div class="caixa-perfil">
+                    <div class="topo-caixa">
+                        <h2 class="titulo-comentario">Bem vinda(o), Usuário</h2>
+
+                        <div class="modo-noturno">
+                            <span class="texto-modo-noturno">Modo Noturno</span>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="caixa-usuario">
+                        <img class="img-icone-perfil" src="img/account-white-icon.webp" alt="Ícone Usuário">
+                        <div class="texto-usuario">
+                            <h4>Usuário da Silva</h4>
+                            <p>usuariodasilva@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <form>
+                        <div class="row">
+
+                            <div class="col-12 col-md-6 bloco-perfil">
+                                <label class="label-perfil">Nome Completo</label>
+                                <input type="text" value="Usuário da Silva" class="input-perfil" required>
+                            </div>
+
+                            <div class="col-12 col-md-6 bloco-perfil">
+                                <label class="label-perfil">Apelido</label>
+                                <input type="text" value="Usuário" class="input-perfil" required>
+                            </div>
+
+                            <div class="col-12 col-md-6 bloco-perfil">
+                                <label class="label-perfil">E-mail</label>
+                                <input type="email" value="usuariodasilva@gmail.com" class="input-perfil" required>
+                            </div>
+
+                            <div class="col-12 col-md-6 bloco-perfil">
+                                <label class="label-perfil">Senha</label>
+                                <input type="text" value="Usuario123" class="input-perfil" required>
+                            </div>
+
+                            <div class="login-submit">
+                                <button type="submit" class="botao-submit">Salvar</button>
+                            </div>
+                            
+                        </div>
+                    </form>                   
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
