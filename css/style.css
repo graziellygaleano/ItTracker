@@ -74,6 +74,14 @@
 
 }
 
+.botao-animado {
+    transition: transform .2s ease-in-out;
+}
+
+.botao-animado:hover {
+    transform: scale(1.1);
+}
+
 .img-perfil {
     width: 30px;
     height: 30px;
@@ -157,7 +165,7 @@
 }
 
 
-/* PERGUNTAS FREQUENTES*/
+/* INDEX -> perguntas frequentes*/
 
 .perguntas-frequentes {
     margin-top: 60px;
