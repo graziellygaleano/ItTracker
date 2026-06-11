@@ -38,6 +38,16 @@
     padding-bottom: 10px;
 }
 
+.menu-link:hover {
+    border-bottom: 2px solid white;
+}
+
+.titulo-site {
+    text-decoration: none ;
+    color: white;
+}
+
+
 .bloco-login {
     padding-left: 50px;
 }
@@ -70,9 +80,7 @@
     object-fit: contain;
 }
 
-.ativo {
-    border-bottom: 2px solid white;
-}
+
 
 .titulo {
     color: var(--amarelo);
@@ -148,9 +156,6 @@
     }
 }
 
-.espacamento {
-    margin-bottom: 60px;
-}
 
 /* PERGUNTAS FREQUENTES*/
 
