@@ -7,6 +7,7 @@
 
 body {
     background-color: var(--tela-fundo);
+    overflow-x: hidden ;
 }
 
 :root {
@@ -27,12 +28,7 @@ body.darkmode {
     --texto-no-azul: #ffffff;
     --texto-padrao: #ffffff;
     --tela-fundo: #01376d;
-
-
-
 }
-
-
 
 .azul {
     background-color: var(--fundo-azul);
@@ -110,17 +106,17 @@ body.darkmode {
     object-fit: contain;
 }
 
-
-
 .titulo {
     color: var(--amarelo);
     margin-bottom: 30px;
     font-weight: bold;
+    margin: 60px;
 }
 
 .texto {
     color: var(--texto-padrao);
     text-align: justify;
+    margin: 60px;
 }
 
 .conteiner-img {
@@ -130,10 +126,7 @@ body.darkmode {
 .img-inicial {
     max-width: 100%;
     height: auto;
-}
-
-.conteiner-main {
-    margin: 60px;
+    margin-top: 60px;
 }
 
 .quadrado-carrossel {
@@ -192,7 +185,6 @@ body.darkmode {
 
 .perguntas-frequentes {
     margin-top: 60px;
-  
 }
 
 .perguntas-frequentes h1{
