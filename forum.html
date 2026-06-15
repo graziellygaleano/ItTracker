@@ -27,13 +27,79 @@
         </div>
     </header>
 
-    <main>
-        <div>
-            
-        </div>
+    <main class="container py-4"> <div class="painel-forum">
+
+            <div class="topo-forum mb-4">
+                <div class="caixa-pesquisa">
+                    <input type="text" placeholder="Pesquisar no fórum..." class="campo-pesquisa">
+                    <span class="icone-lupa"> <img src="img/lupa.png" alt="Ícone-Lupa" class="img-icone"></span>
+                </div>
+
+                <div class="menu-filtro">
+                    <button class="botao-filtro">Todas as perguntas &#9662;</button>
+                    <div class="opcoes-filtro">
+                        <a href="#">Apenas as respondidas</a>
+                        <a href="#">Apenas não respondidas</a>
+                    </div>
+                </div>
+            </div> <div class="row g-4">
+                <div class="col-12 col-md-6">
+                    <div class="bloco-pergunta d-flex flex-column justify-content-between h-100">
+                        <div>
+                            <h5 class="autor-pergunta">Usuário da Silva</h5>
+                            <textarea placeholder="Tem alguma pergunta?" class="campo-pergunta mt-3"></textarea>
+                        </div>
+                        <div class="text-end login-submit mt-3">
+                            <button class="botao-publicar">Publicar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="bloco-pergunta">
+                        <h5 class="autor-pergunta">Fulano de Tal</h5>
+                        <p class="texto-pergunta">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero enim eaque pariatur harum laudantium placeat assumenda, ab adipisci nostrum magnam suscipit quasi expedita consequatur neque obcaecati nemo quisquam totam ipsa.</p>
+
+                        <div class="resposta-pergunta mt-3">
+                            <h6 class="nome-resposta">IT-Tracker <span class="selo-verificado">&#10004;</span></h6>
+                            <p class="texto-pergunta">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam voluptate hic aliquam vel laborum quos deleniti nesciunt repellendus officia quibusdam deserunt, aspernatur voluptates, velit ullam nostrum maiores facere ipsum reprehenderit.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="bloco-pergunta">
+                        <h5 class="autor-pergunta">Ciclano Santos</h5>
+                        <p class="texto-pergunta">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero enim eaque pariatur harum laudantium placeat assumenda, ab adipisci nostrum magnam suscipit quasi expedita consequatur neque obcaecati nemo quisquam totam ipsa.</p>
+
+                        <div class="resposta-pergunta mt-3">
+                            <h6 class="nome-resposta">IT-Tracker <span class="selo-verificado">&#10004;</span></h6>
+                            <p class="texto-pergunta">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam voluptate hic aliquam vel laborum quos deleniti nesciunt repellendus officia quibusdam deserunt, aspernatur voluptates, velit ullam nostrum maiores facere ipsum reprehenderit.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="bloco-pergunta h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="autor-pergunta">Beltrano Carvalho</h5>
+                            <p class="texto-pergunta">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero enim eaque pariatur harum laudantium placeat assumenda, ab adipisci nostrum magnam suscipit quasi expedita consequatur neque obcaecati nemo quisquam totam ipsa.</p>
+                        </div>
+                        <div class="mt-3">
+                            <input type="text" placeholder="Adicionar uma resposta..." class="campo-resposta">
+                            <div class="text-end login-submit mt-3">
+                            <button class="botao-publicar">Publicar</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div> </div>
     </main>
 
-    
+    <footer class="rodape-site">
+        <div>
+            <p class="direitos-autorais">&copy; 2026 IT-Tracker. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>
-
