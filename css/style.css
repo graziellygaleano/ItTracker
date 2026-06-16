@@ -62,7 +62,7 @@ body.darkmode {
 
 .titulo-site {
     text-decoration: none ;
-    color: var(--texto-no-azul);
+    color: var(--amarelo);
 }
 
 
@@ -148,7 +148,7 @@ body.darkmode {
 }
 
 .carousel-caption p{
-    background-color: var(--azul-escuro);
+    box-shadow:  rgba(255, 255, 255, 0.08);
     color: var(--texto-no-azul);
 }
 
@@ -451,6 +451,12 @@ body.darkmode {
     font-weight: bold;
 }
 
+.botoes-perfil {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
 /* FÓRUM */
 
 .painel-forum {
@@ -602,4 +608,22 @@ body.darkmode {
     object-fit: cover;
     border: 2px solid var(--azul-escuro);
     flex-shrink: 0;
+}
+
+.link-desenvolvedores {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+    list-style: none;
+}
+
+.link-desenvolvedores a {
+    color: var(--amarelo);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-desenvolvedores a:hover {
+    text-decoration: underline; 
 }
