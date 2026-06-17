@@ -34,15 +34,28 @@
                     <input type="text" placeholder="Pesquisar no fórum..." class="campo-pesquisa">
                     <span class="icone-lupa"> <img src="img/lupa.png" alt="Ícone-Lupa" class="img-icone"></span>
                 </div>
+            </div>
 
-                <div class="menu-filtro">
-                    <button class="botao-filtro">Todas as perguntas &#9662;</button>
-                    <div class="opcoes-filtro">
-                        <a href="#">Apenas as respondidas</a>
-                        <a href="#">Apenas não respondidas</a>
-                    </div>
-                </div>
-            </div> <div class="row g-4">
+            <div class="filtro-forum">
+                <div id="header-opcao" class="header-opcao">Filtrar</div>
+                
+                <ul class="filtro-menu">
+                    <li>
+                        <input type="radio" name="filtro-opcoes" id="todas-perguntas" class="opcoes-expansivel">
+                        <label for="todas-perguntas" class="opcoes-label">Todas perguntas</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filtro-opcoes" id="perguntas-respondidas" class="opcoes-expansivel">
+                        <label for="perguntas-respondidas" class="opcoes-label">Apenas respondidas</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="filtro-opcoes" id="perguntas-naoRespondidas" class="opcoes-expansivel">
+                        <label for="perguntas-naoRespondidas" class="opcoes-label">Apenas não respondidas</label>
+                    </li>
+                </ul>
+            </div> 
+
+            <div class="row g-4">
                 <div class="col-12 col-md-6">
                     <div class="bloco-pergunta d-flex flex-column justify-content-between h-100">
                         <div>

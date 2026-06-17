@@ -492,33 +492,76 @@ body.darkmode {
     transform: translateY(-50%);
 }
 
-.menu-filtro {
-    position: relative;
-    display: inline-block;
+.filtro-forum {
+  font-family: Arial, sans-serif;
+  position: relative;  
 }
 
-.botao-filtro {
-    background-color: var(--azul-escuro);
-    color: var(--texto-no-azul);
-    border: none;
-    padding: 12px 25px;
-    font-weight: bold;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    width: 210px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+
+.header-opcao {
+  background-color: var(--azul-escuro);
+  color: var(--texto-no-azul);
+  font-weight: bold;
+  font-size: 14px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: auto;
 }
 
-.opcoes-filtro {
-    display: none;
-    background-color: var(--azul-escuro);
-    width: 100%;
-    border-radius: 0 0 8px 8px;
+.filtro-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0; 
+  
+  /* REGRAS DE POSICIONAMENTO */
+  position: absolute;
+  top: 100%; /* Faz o menu começar exatamente onde o botão termina */
+  left: 0;
+  width: 100%; /* Garante que o menu tenha a mesmíssima largura do botão */
+  z-index: 10; /* Faz ele ficar por cima de qualquer outro texto da página */
+  
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: var(--tela-fundo);
+  
+  border-radius: 0 0 8px 8px; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  
+  border: 1px solid #ced4da;
+  border-top: none; 
+  box-sizing: border-box; 
+
 }
+
+.filtro-forum.open .filtro-menu {
+  max-height: 200px; 
+}
+
+.opcoes-expansivel {
+  display: none;
+}
+
+.opcoes-label {
+  display: block;
+  padding: 10px 15px;
+  color: var(--texto-padrao);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.opcoes-label:hover {
+  background-color: var(--cinza);
+}
+
+.opcoes-expansivel:checked + .opcoes-label {
+  background-color: var(--azul-escuro);
+  color: var(--amarelo);
+  font-weight: bold;
+}
+
 
 .bloco-pergunta {
     background-color: var(--texto-no-azul);
