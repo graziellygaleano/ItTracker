@@ -1,3 +1,4 @@
+/* GERAL */
 * {
     margin: 0;
     padding: 0;
@@ -15,19 +16,50 @@ body {
     --amarelo: #f1b83a;
     --azul-escuro: #0d4b8a;
     --cinza: #ececec;
+    --blocos-texto: #ffffff;
     --texto-no-azul: white;
     --texto-padrao: #000000;
     --tela-fundo: white;
 }
 
-body.darkmode {
+/* DARKMODE */
+
+.darkmode {
     --fundo-azul: #2a5298;
     --amarelo: #f1b83a;
     --azul-escuro: #012a53;
     --cinza: #a1a1a1;
+    --blocos-texto: #000000;
     --texto-no-azul: #ffffff;
     --texto-padrao: #ffffff;
     --tela-fundo: #01376d;
+}
+
+#trocar-modo {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: var(--cinza);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#trocar-modo svg {
+    fill: var(--azul-escuro);
+}
+
+#trocar-modo svg:last-child{
+    display: none ;
+}
+
+.darkmode #trocar-modo svg:first-child {
+    display: none;
+}
+
+.darkmode #trocar-modo svg:last-child {
+    display: block;
 }
 
 .azul {
@@ -35,6 +67,8 @@ body.darkmode {
     color: var(--texto-no-azul);
     padding: 20px;
 }
+
+/* HEADER */
 
 .navbar {
     display: flex;
@@ -64,6 +98,8 @@ body.darkmode {
     text-decoration: none ;
     color: var(--amarelo);
 }
+
+/* ÁREA DE LOGIN E CADASTRO */
 
 
 .bloco-login {
@@ -100,6 +136,8 @@ body.darkmode {
     transform: scale(1.1);
 }
 
+/* ÁREA TEXTO E IMAGEM */
+
 .img-perfil {
     width: 30px;
     height: 30px;
@@ -128,6 +166,8 @@ body.darkmode {
     height: auto;
     margin-top: 60px;
 }
+
+/* CARROSSEL */
 
 .quadrado-carrossel {
     background-color: rgb(199, 225, 247);
@@ -167,6 +207,8 @@ body.darkmode {
 #carrossel {
     margin: 20px;
 }
+
+/* RESPONSIVIDADE HEADER */
 
 @media (max-width: 768px) {
     .navbar {
@@ -290,6 +332,8 @@ body.darkmode {
     background-color: var(--amarelo);
 }
 
+/* LOGIN E CADASTRO */
+
 
 .login {
     min-height: 100vh;
@@ -375,6 +419,8 @@ body.darkmode {
     text-decoration: underline;
     font-weight: bolder;
 }
+
+/* PERFIL */
 
 .conteiner-perfil {
     margin: 40px auto;
@@ -483,6 +529,8 @@ body.darkmode {
     padding: 12px 50px 12px 20px;
     border-radius: 8px;
     outline: none;
+    background-color: var(--blocos-texto);
+    color: var(--texto-padrao);
 }
 
 .icone-lupa img {
@@ -497,8 +545,6 @@ body.darkmode {
   position: relative;  
   max-width: 210px;
 }
-
-
 
 .header-opcao {
   background-color: var(--azul-escuro);
@@ -570,7 +616,7 @@ body.darkmode {
 
 
 .bloco-pergunta {
-    background-color: var(--texto-no-azul);
+    background-color: var(--blocos-texto);
     border-radius: 12px;
     padding: 25px;
     border: 1px solid rgba(0,0,0,0.05);
@@ -579,6 +625,7 @@ body.darkmode {
 .autor-pergunta {
     font-weight: bold;
     margin: 0;
+    color: var(--texto-padrao);
 }
 
 .campo-pergunta {
@@ -591,6 +638,7 @@ body.darkmode {
     outline: none;
     color: #333;
     font-size: 14px;
+    background-color: var(--blocos-texto);
 }
 
 .campo-resposta {
@@ -600,12 +648,14 @@ body.darkmode {
     padding: 12px 15px;
     outline: none;
     font-size: 14px;
+    background-color: var(--blocos-texto);
 }
 
 .texto-pergunta {
     text-align: justify;
     margin-top: 15px;
     font-size: 14px;
+    color: var(--texto-padrao);
 }
 
 .botao-publicar {
