@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const campoEmail = document.getElementById('emailCampo');
     const campoSenha = document.getElementById('senhaCampo');
 
-    // Declarado uma ÚNICA vez com segurança
     const dados = userDados();
 
     if (dados && dados.logado === true) {

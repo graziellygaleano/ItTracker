@@ -18,10 +18,8 @@ export function validarCadastro(nome, email, senha) {
 export function validarLogin(email, senha) {
     console.log("entrou em validar login");
 
-    // CORREÇÃO CRÍTICA: Busca os usuários reais do LocalStorage antes de validar
     const listaUsuarios = JSON.parse(localStorage.getItem('bdUsuarios')) || [];
 
-    // Usando a sua lógica do .some() que está excelente!
     const usuarioValido = listaUsuarios.some(([ , emailCadastrado, senhaCadastrada]) => 
         emailCadastrado === email && senhaCadastrada === senha
     );
