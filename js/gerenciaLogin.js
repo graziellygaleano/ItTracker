@@ -1,5 +1,12 @@
 export function obterStatusLogin() {
-    return JSON.parse(localStorage.getItem('userConectado')) || false;
+    const user = JSON.parse(localStorage.getItem('userLogado'));
+    return user ? user.logado : false;
+}
+
+export function userDados() {
+    const user = JSON.parse(localStorage.getItem('userLogado'));
+
+    return user ? user : false;
 }
 
 export function logar() {
@@ -10,6 +17,7 @@ export function logar() {
 export function deslogar() {
     console.log('Desconectou user');
     localStorage.setItem('userConectado', JSON.stringify(false));
+    localStorage.removeItem('userLogado');
     alert("Usuário desconectado com sucesso!");
     window.location.replace("index.html");
 }

@@ -1,4 +1,4 @@
-import { validarCadastro, validarLogin, salvarUsuario} from "./salvarUser.js"
+import { validarCadastro, validarLogin, salvarUsuario} from "./crudUser.js"
 
 const forms = document.getElementById('formulario')
 

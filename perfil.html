@@ -37,7 +37,7 @@
 
                 <div class="caixa-perfil">
                     <div class="topo-caixa">
-                        <h2 class="titulo-comentario">Bem vinda(o), Usuário</h2>
+                        <h2 id="titulo-comentario" class="titulo-comentario">Bem vinda(o), Usuário</h2>
 
                         <div class="modo-noturno">
                             <button id="trocar-modo">
@@ -59,8 +59,8 @@
                     <div class="caixa-usuario">
                         <img class="img-icone-perfil" src="img/account-white-icon.webp" alt="Ícone Usuário">
                         <div class="texto-usuario">
-                            <h4>Usuário da Silva</h4>
-                            <p>usuariodasilva@gmail.com</p>
+                            <h4 id="nomePerfil">Usuário da Silva</h4>
+                            <p id="emailPerfil">usuariodasilva@gmail.com</p>
                         </div>
                     </div>
 
@@ -68,32 +68,29 @@
                         <div class="row">
 
                             <div class="col-12 col-md-6 bloco-perfil">
-                                <label class="label-perfil">Nome Completo</label>
-                                <input type="text" value="Usuário da Silva" class="input-perfil" required>
+                                <label 
+                                class="label-perfil">Nome Completo</label>
+                                <input id="nomeCampo" type="text" value="Usuário da Silva" class="input-perfil" required>
                             </div>
 
                             <div class="col-12 col-md-6 bloco-perfil">
-                                <label class="label-perfil">Apelido</label>
-                                <input type="text" value="Usuário" class="input-perfil" required>
-                            </div>
-
-                            <div class="col-12 col-md-6 bloco-perfil">
-                                <label class="label-perfil">E-mail</label>
-                                <input type="email" value="usuariodasilva@gmail.com" class="input-perfil" required>
+                                <label 
+                                class="label-perfil">E-mail</label>
+                                <input id="emailCampo" type="text" value="usuariodasilva@gmail.com" class="input-perfil" required>
                             </div>
 
                             <div class="col-12 col-md-6 bloco-perfil">
                                 <label class="label-perfil">Senha</label>
-                                <input type="text" value="Usuario123" class="input-perfil" required>
+                                <input id="senhaCampo" type="text" value="Usuario123" class="input-perfil" required>
                             </div>
 
                             <div class="botoes-perfil">
                                 <div class="login-submit botao-animado">
-                                    <button type="button" class="botao-submit" data-bs-toggle="modal"
+                                    <button id="botaoSalvar" type="button" class="botao-submit" data-bs-toggle="modal"
                                         data-bs-target="#modalConfirmacao">Salvar Alterações</button>
                                 </div>
                                 <div class="login-submit botao-animado">
-                                    <button type="button" class="botao-submit" data-bs-toggle="modal"
+                                    <button id="botaoExcluir" type="button" class="botao-submit" data-bs-toggle="modal"
                                         data-bs-target="#modalConfirmacaoExcluir">Excluir Conta</button>
                                 </div>
                                 <div class="login-submit botao-animado">
