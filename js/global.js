@@ -3,9 +3,6 @@ import { userDados } from "./gerenciaLogin.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // ==========================================
-    // 1. CONFIGURAÇÃO DO LINK DO FÓRUM GLOBAL
-    // ==========================================
     const linkForum = document.getElementById('linkForum');
 
     if (linkForum) {
@@ -22,9 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // 2. CONFIGURAÇÃO DO DARK MODE GLOBAL
-    // ==========================================
     let darkmode = localStorage.getItem('darkmode');
     const trocarModo = document.getElementById('trocar-modo');
 
@@ -38,12 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('darkmode', null);
     };
 
-    // Aplica o darkmode imediatamente ao carregar a página se estiver ativo
     if (darkmode === "active") {
         enableDarkmode();
     }
 
-    // Gerencia o clique do botão caso ele exista na página atual
     if (trocarModo) {
         trocarModo.addEventListener("click", () => {
             darkmode = localStorage.getItem('darkmode');
