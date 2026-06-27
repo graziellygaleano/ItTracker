@@ -17,24 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderizarCard(textoDoComentario, nomeDoAutor, respostaTexto = null, respostaAutor = null, respondida = false) {
         const novoCard = document.createElement('div');
-        novoCard.className = "bloco-pergunta d-flex flex-column justify-content-between p-4 mb-3 card-forum-item";
+        novoCard.className = "col-12 col-md-6 card-forum-item-container";
         novoCard.setAttribute('data-respondida', respondida);
 
         const donoDoCard = dadosUsuario && dadosUsuario.nome === nomeDoAutor;
 
         let htmlCard = `
-        <div>
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="autor-pergunta" style="color: var(--amarelo); font-weight: bold;">${nomeDoAutor}</h5>
-                
-                ${donoDoCard ? `
-                    <button class="btn-remover-comentario" style="background: none; border: none; color: #ff4d4d; font-size: 0.85rem; cursor: pointer; font-weight: bold;">
-                        ✕ Excluir
-                    </button>
-                ` : ''}
+        <div class="bloco-pergunta d-flex flex-column justify-content-between p-4 h-100">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="autor-pergunta" style="color: var(--amarelo); font-weight: bold;">${nomeDoAutor}</h5>
+                    
+                    ${donoDoCard ? `
+                        <button class="btn-remover-comentario" style="background: none; border: none; color: #ff4d4d; font-size: 0.85rem; cursor: pointer; font-weight: bold;">
+                            ✕ Excluir
+                        </button>
+                    ` : ''}
+                </div>
+                <p class="texto-comentario-publicado mt-2" style="white-space: pre-wrap;">${textoDoComentario}</p>
             </div>
-            <p class="texto-comentario-publicado mt-2" style="white-space: pre-wrap;">${textoDoComentario}</p>
-        </div>
     `;
 
         if (respondida && respostaTexto) {
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
         }
+        htmlCard += `</div>`;
 
         novoCard.innerHTML = htmlCard;
 
@@ -111,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        containerComentarios.insertBefore(novoCard, containerComentarios.firstChild);
+        containerComentarios.appendChild(novoCard);
     }
 
     const comentariosSalvos = JSON.parse(localStorage.getItem('bdComentarios')) || [];

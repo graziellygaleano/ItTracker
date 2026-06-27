@@ -9,6 +9,12 @@
 body {
     background-color: var(--tela-fundo);
     overflow-x: hidden ;
+    min-height: 100vh;
+    
+}
+
+main {
+    flex: 1;
 }
 
 :root {
@@ -29,10 +35,21 @@ body {
     --amarelo: #f1b83a;
     --azul-escuro: #012a53;
     --cinza: #a1a1a1;
-    --blocos-texto: #000000;
+    --blocos-texto: #6e6c6c;
     --texto-no-azul: #ffffff;
     --texto-padrao: #ffffff;
     --tela-fundo: #01376d;
+}
+
+.darkmode input::placeholder,
+.darkmode textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.darkmode .campo-pergunta,
+.darkmode .texto-comentario-publicado,
+.darkmode .texto-pergunta {
+    color: var(--texto-padrao) !important;
 }
 
 #trocar-modo {
@@ -242,10 +259,11 @@ body {
     background-color: var(--azul-escuro);
     color: var(--texto-no-azul);
     padding: 5px;
+    position: sticky;
+    top: 100vh;
 }
 
 .direitos-autorais {
-    justify-content: center;
     font-size: 14px;
     text-align: center;
     margin: 0;
@@ -636,7 +654,7 @@ body {
     padding: 10px;
     resize: none;
     outline: none;
-    color: #333;
+    color: var(--texto-padrao);
     font-size: 14px;
     background-color: var(--blocos-texto);
 }
