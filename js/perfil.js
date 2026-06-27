@@ -4,8 +4,9 @@ import { buscarUsuarioPorEmail, excluirUser, atualizarPerfil } from "./crudUser.
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Página de perfil carregada com sucesso!");
 
-    const botaoSair = document.getElementById('botaoSair');
-    const botaoExcluirC = document.getElementById('botaoExcluir');
+    const confirmarExclusaoModal = document.getElementById('confirmarExclusaoReal');
+    const confirmarSalvarModal = document.getElementById('confirmarSalvarReal');
+    const confirmarSairModal = document.getElementById('confirmarSairReal');
 
     const mensagemBoasVindas = document.getElementById('titulo-comentario');
     const nomeUserTop = document.getElementById('nomePerfil');
@@ -27,25 +28,32 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "login.html";
     }
 
-    if (botaoSair) {
-        botaoSair.addEventListener('click', (event) => {
-            event.preventDefault();
-            deslogar();
-        });
-    }
-
-    if (botaoExcluirC) {
-        botaoExcluirC.addEventListener('click', (event) => {
+    if (confirmarExclusaoModal) {
+        confirmarExclusaoModal.addEventListener('click', (event) => {
             event.preventDefault();
 
             if (dados && dados.nome) {
-                const confirmar = confirm("Tem certeza que deseja excluir sua conta permanentemente?");
-                if (confirmar) {
-                    excluirUser(dados.nome);
-                    console.log(buscarUsuarioPorEmail('grazy1@gmail.com'))
-                    deslogar();
-                }
+                excluirUser(dados.nome);
+                console.log(buscarUsuarioPorEmail('grazy1@gmail.com'));
+                deslogar();
             }
+        });
+    }
+
+    if (confirmarSalvarModal) {
+        confirmarSalvarModal.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            if (dados) {
+                atualizarPerfil(dados.email);
+            }
+        });
+    }
+
+    if (confirmarSairModal) {
+        confirmarSairModal.addEventListener('click', (event) => {
+            event.preventDefault();
+            deslogar();
         });
     }
 
@@ -58,15 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 window.location.href = "perfil.html";
             }
-        });
-    }
-
-    const botaoSalvar = document.getElementById('botaoSalvar');
-
-    if (botaoSalvar && dados) {
-        botaoSalvar.addEventListener('click', (event) => {
-            event.preventDefault();
-            atualizarPerfil(dados.email);
         });
     }
 });

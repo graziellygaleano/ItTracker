@@ -7,7 +7,8 @@
     <title>IT Tracker Perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script type="module" src="js/global.js" defer></script></head>
+    <script type="module" src="js/global.js" defer></script>
+</head>
 
 <body>
     <header class="azul">
@@ -50,7 +51,6 @@
                                     <path
                                         d="M338.5-338.5Q280-397 280-480t58.5-141.5Q397-680 480-680t141.5 58.5Q680-563 680-480t-58.5 141.5Q563-280 480-280t-141.5-58.5ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z" />
                                 </svg>
-
                             </button>
                         </div>
                     </div>
@@ -67,14 +67,12 @@
                         <div class="row">
 
                             <div class="col-12 col-md-6 bloco-perfil">
-                                <label 
-                                class="label-perfil">Nome Completo</label>
+                                <label class="label-perfil">Nome Completo</label>
                                 <input id="nomeCampo" type="text" value="Usuário da Silva" class="input-perfil" required>
                             </div>
 
                             <div class="col-12 col-md-6 bloco-perfil">
-                                <label 
-                                class="label-perfil">E-mail</label>
+                                <label class="label-perfil">E-mail</label>
                                 <input id="emailCampo" type="text" value="usuariodasilva@gmail.com" class="input-perfil" required>
                             </div>
 
@@ -118,8 +116,7 @@
                 style="background-color: var(--azul-escuro); border: 2px solid var(--amarelo); border-radius: 12px;">
 
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold" id="modalConfirmacaoLabel" style="color: var(--amarelo);">Confirmar
-                        Alterações</h5>
+                    <h5 class="modal-title fw-bold" id="modalConfirmacaoLabel" style="color: var(--amarelo);">Confirmar Alterações</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -133,9 +130,9 @@
                         style="background-color: var(--cinza); color: #000; padding: 8px 25px;" data-bs-dismiss="modal">
                         Cancelar
                     </button>
-                    <button type="submit" class="botao-submit botao-animado"
+                    <button type="button" id="confirmarSalvarReal" class="botao-submit botao-animado"
                         style="background-color: var(--amarelo); color: #000; padding: 8px 25px;">
-                        Sim, tenho certeza
+                        Sim, salvar alterações.
                     </button>
                 </div>
 
@@ -150,8 +147,7 @@
                 style="background-color: var(--azul-escuro); border: 2px solid rgb(255, 57, 57); border-radius: 12px;">
 
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold" id="modalConfirmacaoLabel" style="color: rgb(255, 57, 57);">Excluir
-                        Conta</h5>
+                    <h5 class="modal-title fw-bold" id="modalConfirmacaoExcluirLabel" style="color: rgb(255, 57, 57);">Excluir Conta</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -165,7 +161,7 @@
                         style="background-color: var(--cinza); color: #000; padding: 8px 25px;" data-bs-dismiss="modal">
                         Cancelar
                     </button>
-                    <button type="submit" class="botao-submit botao-animado"
+                    <button type="button" id="confirmarExclusaoReal" class="botao-submit botao-animado"
                         style="background-color: rgb(255, 57, 57); color: white; padding: 8px 25px;">
                         Sim, excluir conta.
                     </button>
@@ -174,6 +170,38 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalConfirmacaoSair" tabindex="-1" aria-labelledby="modalConfirmacaoSairLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white"
+                style="background-color: var(--azul-escuro); border: 2px solid var(--amarelo); border-radius: 12px;">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="modalConfirmacaoSairLabel" style="color: var(--amarelo);">Sair da Conta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="m-0 text-center">Você tem certeza que deseja sair da sua conta?</p>
+                </div>
+
+                <div class="modal-footer border-0 d-flex justify-content-center gap-3">
+                    <button type="button" class="botao-submit botao-animado"
+                        style="background-color: var(--cinza); color: #000; padding: 8px 25px;" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" id="confirmarSairReal" class="botao-submit botao-animado"
+                        style="background-color: var(--amarelo); color: #000; padding: 8px 25px;">
+                        Sim, sair da conta.
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/perfil.js"></script>
     <script type="module" src="js/gerenciaLogin.js"></script>

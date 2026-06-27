@@ -1,4 +1,7 @@
 const usuarios = [['Grazy','grazy@gmail.com','22052007'],['Malu','malu@gmail.com','13112004'],['Thales','thales@gmail.com','17022007']]; 
+if (!localStorage.getItem('bdUsuarios')) {
+    localStorage.setItem('bdUsuarios', JSON.stringify(usuarios));
+}
 
 export function validarCadastro(nome, email, senha) {
 
@@ -107,6 +110,5 @@ export function atualizarPerfil(emailAntigo) {
     });
     localStorage.setItem('bdUsuarios', JSON.stringify(listaAtualizada));
 
-    alert("Perfil atualizado com sucesso!");
     window.location.reload(); 
 }

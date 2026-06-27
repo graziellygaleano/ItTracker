@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const botaoPublicar = document.getElementById('botaoPublicar');
     const containerComentarios = document.getElementById('container-comentarios');
 
+    // VARIÁVEIS GLOBAIS PARA RASTREAR O COMENTÁRIO SELECIONADO NA EXCLUSÃO
+    let comentarioParaExcluir = null;
+    let autorParaExcluir = null;
+
     const dadosUsuario = userDados();
     const estaLogado = dadosUsuario !== false;
 
@@ -13,6 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
         autorPergunta.innerText = dadosUsuario.nome;
     } else if (autorPergunta) {
         autorPergunta.innerText = "Visitante Anônimo";
+    }
+
+    // DISPARADOR DO MODAL DE EXCLUSÃO (CÓDIGO ADICIONADO)
+    const btnConfirmarExcluirComentario = document.getElementById('btnConfirmarExcluirComentario');
+    if (btnConfirmarExcluirComentario) {
+        btnConfirmarExcluirComentario.addEventListener('click', () => {
+            if (comentarioParaExcluir && autorParaExcluir) {
+                let comentariosSalvos = JSON.parse(localStorage.getItem('bdComentarios')) || [];
+
+                // Filtra a lista removendo o item selecionado
+                comentariosSalvos = comentariosSalvos.filter(c => !(c.texto === comentarioParaExcluir && c.autor === autorParaExcluir));
+
+                localStorage.setItem('bdComentarios', JSON.stringify(comentariosSalvos));
+                window.location.reload();
+            }
+        });
     }
 
     function renderizarCard(textoDoComentario, nomeDoAutor, respostaTexto = null, respostaAutor = null, respondida = false) {
@@ -68,16 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (donoDoCard) {
             const btnRemover = novoCard.querySelector('.btn-remover-comentario');
             btnRemover.addEventListener('click', () => {
-                const confirmar = confirm("Tem certeza que deseja apagar a sua pergunta permanentemente?");
-                if (confirmar) {
-                    let comentariosSalvos = JSON.parse(localStorage.getItem('bdComentarios')) || [];
+                // MODIFICAÇÃO AQUI: Salva quais dados serão apagados e chama o modal customizado do Bootstrap
+                comentarioParaExcluir = textoDoComentario;
+                autorParaExcluir = nomeDoAutor;
 
-                    comentariosSalvos = comentariosSalvos.filter(c => !(c.texto === textoDoComentario && c.autor === nomeDoAutor));
-
-                    localStorage.setItem('bdComentarios', JSON.stringify(comentariosSalvos));
-
-                    window.location.reload();
-                }
+                const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluirComentario'));
+                modalExcluir.show();
             });
         }
 

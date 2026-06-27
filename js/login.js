@@ -20,7 +20,6 @@ if (forms) {
             const dadosCompletos = buscarUsuarioPorEmail(email);
             const nomeApenas = dadosCompletos ? dadosCompletos.nome : "Usuário";
 
-
             const user = { nome: nomeApenas, email: email, senha: senha, logado: true };
             
             localStorage.setItem('userLogado', JSON.stringify(user));
@@ -28,7 +27,8 @@ if (forms) {
             window.location.replace("perfil.html"); 
             
         } else {
-            alert("Email ou senha incorreto!");
+            const modalErro = new bootstrap.Modal(document.getElementById('modalErroLogin'));
+            modalErro.show();
         }
     }); 
 }

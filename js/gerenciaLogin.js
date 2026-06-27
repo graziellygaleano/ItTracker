@@ -18,6 +18,5 @@ export function deslogar() {
     console.log('Desconectou user');
     localStorage.setItem('userConectado', JSON.stringify(false));
     localStorage.removeItem('userLogado');
-    alert("Usuário desconectado com sucesso!");
     window.location.replace("index.html");
 }
