@@ -521,6 +521,27 @@ main {
     gap: 30px;
 }
 
+@media (max-width: 768px) {
+    .caixa-perfil {
+        padding: 30px 20px;
+    }
+
+    .botoes-perfil {
+        flex-direction: column;
+        gap: 15px; 
+        width: 100%;
+    }
+
+    .botao-submit {
+        padding: 12px 20px; 
+        width: 100%;
+    }
+    
+    .botoes-perfil .botao-animado {
+        width: 100%;
+    }
+}
+
 /* FÓRUM */
 
 .painel-forum {
