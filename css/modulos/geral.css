@@ -1,0 +1,8 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
+body {background-color: var(--tela-fundo); overflow-x: hidden ; min-height: 100vh;}
+main {flex: 1;}
+.azul {background-color: var(--fundo-azul); color: var(--texto-no-azul); padding: 20px;}
+.botao-animado {transition: transform .2s ease-in-out;}
+.botao-animado:hover {transform: scale(1.1);}
+.rodape-site {background-color: var(--azul-escuro); color: var(--texto-no-azul); padding: 5px; position: sticky; top: 100vh;}
+.direitos-autorais {font-size: 14px; text-align: center; margin: 0;}

@@ -1,0 +1,13 @@
+.navbar {display: flex; justify-content: space-between; align-items: center; font-size: 1.2em;}
+.menu {display: flex; gap: 50px; list-style: none; margin-right: 30px;}
+.menu-link {color: var(--texto-no-azul); text-decoration: none; font-weight: 500; padding-bottom: 10px;}
+.menu-link:hover {border-bottom: 2px solid var(--texto-no-azul);}
+.titulo-site {text-decoration: none ; color: var(--amarelo); font-size: 1.2em;}
+.img-perfil {width: 30px; height: 30px; object-fit: contain;}
+
+@media (max-width: 768px) {
+    .navbar {display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; justify-content: space-between !important;}
+    h1 { order: 1; }
+    .navbar>a { order: 2; }
+    .menu {order: 3; width: 100%; justify-content: center; margin-right: 0; margin-top: 15px; gap: 20px;}
+}

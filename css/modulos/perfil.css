@@ -1,0 +1,20 @@
+.conteiner-perfil { margin: 40px auto; display: flex; justify-content: center; }
+.caixa-perfil { background-color: var(--fundo-azul); border-radius: 15px; padding: 40px 60px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.500); color: var(--texto-no-azul); }
+.topo-caixa { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.caixa-usuario { display: flex; align-items: center; gap: 30px; margin-bottom: 30px; }
+.modo-noturno { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.texto-modo-noturno { color: rgba(255, 255, 255, 0.8); font-weight: bold; font-size: small; }
+.img-icone-perfil { width: 80px; height: 80px; }
+.texto-usuario h4 { font-weight: bold; margin: 0; }
+.texto-usuario p { margin-top: 5px; color: var(--texto-no-azul); }
+.bloco-perfil { margin-bottom: 30px; }
+.label-perfil { display: block; font-weight: bold; margin-bottom: 8px; }
+.input-perfil { width: 100%; border: none; border-radius: 8px; padding: 12px 20px; color: #444; font-weight: bold; }
+.botoes-perfil { display: flex; justify-content: center; gap: 30px; }
+
+@media (max-width: 768px) {
+    .caixa-perfil { padding: 30px 20px; }
+    .botoes-perfil { flex-direction: column; gap: 15px; width: 100%; }
+    .botoes-perfil .botao-submit { padding: 12px 20px; width: 100%; }
+    .botoes-perfil .botao-animado { width: 100%; }
+}
