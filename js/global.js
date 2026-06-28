@@ -3,13 +3,12 @@ import { userDados } from "./gerenciaLogin.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    const linkForum = document.getElementById('linkForum');
+    const linksDoForum = document.querySelectorAll('a[href="forum.html"]');
+    const usuario = userDados();
 
-    if (linkForum) {
-        linkForum.addEventListener('click', (event) => {
+    linksDoForum.forEach(link => {
+        link.addEventListener('click', (event) => {
             event.preventDefault();
-
-            const usuario = userDados();
 
             if (usuario && usuario.logado === true) {
                 window.location.href = "forum.html";
@@ -17,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "forumDeslogado.html";
             }
         });
-    }
+    });
 
     let darkmode = localStorage.getItem('darkmode');
     const trocarModo = document.getElementById('trocar-modo');

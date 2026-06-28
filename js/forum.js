@@ -6,12 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const botaoPublicar = document.getElementById('botaoPublicar');
     const containerComentarios = document.getElementById('container-comentarios');
 
-    // VARIÁVEIS GLOBAIS PARA RASTREAR O COMENTÁRIO SELECIONADO NA EXCLUSÃO
     let comentarioParaExcluir = null;
     let autorParaExcluir = null;
 
     const dadosUsuario = userDados();
     const estaLogado = dadosUsuario !== false;
+
+    if (!estaLogado) {
+        if (window.location.pathname.includes("forum.html")) {
+            window.location.href = "forumDeslogado.html";
+            return;
+        }
+    }
 
     if (dadosUsuario && autorPergunta) {
         autorPergunta.innerText = dadosUsuario.nome;
@@ -19,14 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
         autorPergunta.innerText = "Visitante Anônimo";
     }
 
-    // DISPARADOR DO MODAL DE EXCLUSÃO (CÓDIGO ADICIONADO)
     const btnConfirmarExcluirComentario = document.getElementById('btnConfirmarExcluirComentario');
     if (btnConfirmarExcluirComentario) {
         btnConfirmarExcluirComentario.addEventListener('click', () => {
             if (comentarioParaExcluir && autorParaExcluir) {
                 let comentariosSalvos = JSON.parse(localStorage.getItem('bdComentarios')) || [];
 
-                // Filtra a lista removendo o item selecionado
                 comentariosSalvos = comentariosSalvos.filter(c => !(c.texto === comentarioParaExcluir && c.autor === autorParaExcluir));
 
                 localStorage.setItem('bdComentarios', JSON.stringify(comentariosSalvos));
