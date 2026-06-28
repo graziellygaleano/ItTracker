@@ -22,4 +22,4 @@
 .nome-resposta { color: var(--fundo-azul); font-weight: bold; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
 .selo-verificado { font-size: 11px; background-color: var(--fundo-azul); color: var(--texto-no-azul); border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; }
 .texto-comentario-publicado,
-.texto-pergunta {overflow-wrap: break-word; word-break: break-word;     }
+.texto-pergunta {overflow-wrap: break-word; word-break: break-word;}
