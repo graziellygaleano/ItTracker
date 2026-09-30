@@ -1,4 +1,3 @@
-// js/global.js
 import { userDados } from "./gerenciaLogin.js";
 
 document.addEventListener("DOMContentLoaded", () => {

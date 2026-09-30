@@ -1,0 +1,17 @@
+backend/
+├── src/
+│   ├── config/            # Variáveis de ambiente, conexões com BD, CORS
+│   ├── controllers/       # Lida com requisições HTTP (request/response)
+│   ├── services/          # Regras de negócio da aplicação (o "coração")
+│   ├── repositories/      # Comunicação direta com o Banco de Dados (ORM/Queries)
+│   ├── models/            # Entidades e esquemas do banco (Prisma, TypeORM, Mongoose)
+│   ├── dtos/              # Schemas de validação de dados de entrada/saída (Zod, Joi)
+│   ├── middlewares/       # Interceptadores (Autenticação JWT, tratamento de erros)
+│   ├── utils/             # Funções utilitárias puras (formatação de data, hash)
+│   ├── routes/            # Definição das rotas e endpoints da API
+│   ├── app.ts             # Configuração da instância do servidor
+│   └── server.ts          # Arquivo de entrada que roda a aplicação
+├── tests/                 # Testes unitários e de integração
+├── .env.example           # Modelo das variáveis de ambiente necessárias
+├── .gitignore
+└── package.json (ou requirements.txt / pom.xml)

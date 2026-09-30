@@ -1,0 +1,4 @@
+oq esse arquivo faz?
+
+- conecta com bd
+- variaveis de servidor
