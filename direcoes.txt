@@ -1,17 +1,76 @@
-backend/
-├── src/
-│   ├── config/            # Variáveis de ambiente, conexões com BD, CORS
-│   ├── controllers/       # Lida com requisições HTTP (request/response)
-│   ├── services/          # Regras de negócio da aplicação (o "coração")
-│   ├── repositories/      # Comunicação direta com o Banco de Dados (ORM/Queries)
-│   ├── models/            # Entidades e esquemas do banco (Prisma, TypeORM, Mongoose)
-│   ├── dtos/              # Schemas de validação de dados de entrada/saída (Zod, Joi)
-│   ├── middlewares/       # Interceptadores (Autenticação JWT, tratamento de erros)
-│   ├── utils/             # Funções utilitárias puras (formatação de data, hash)
-│   ├── routes/            # Definição das rotas e endpoints da API
-│   ├── app.ts             # Configuração da instância do servidor
-│   └── server.ts          # Arquivo de entrada que roda a aplicação
-├── tests/                 # Testes unitários e de integração
-├── .env.example           # Modelo das variáveis de ambiente necessárias
-├── .gitignore
-└── package.json (ou requirements.txt / pom.xml)
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/database.js';
+
+export const User = sequelize.define('User', {
+  userId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    field: 'id-user' // Mapeia para o nome exato da coluna na base de dados
+  },
+  email: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+    unique: true
+  },
+  username: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  profession: {
+    type: DataTypes.STRING(50)
+  },
+  institution: {
+    type: DataTypes.STRING(128)
+  },
+  userType: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    field: 'tipo-usuario'
+  }
+}, {
+  tableName: 'Usuarios-login', // Mapeia para o nome da tabela na BD
+  timestamps: false            // Desativa os campos automatizados createdAt/updatedAt
+});
+
+
+
+-------------------
+
+import { User } from '../models/User.js';
+
+export class UserRepository {
+  // Criar um novo utilizador (INSERT)
+  async create(userData) {
+    const newUser = await User.create(userData);
+    return newUser;
+  }
+
+  // Procurar por ID (SELECT WHERE id = x)
+  async findById(userId) {
+    const user = await User.findByPk(userId);
+    return user;
+  }
+
+  // Atualizar perfil (UPDATE WHERE id = x)
+  async update(userId, updatedData) {
+    const user = await User.findByPk(userId);
+    if (!user) return null;
+
+    await user.update(updatedData);
+    return user;
+  }
+
+  // Eliminar utilizador (DELETE WHERE id = x)
+  async delete(userId) {
+    const user = await User.findByPk(userId);
+    if (!user) return false;
+
+    await user.destroy();
+    return true;
+  }
+}
