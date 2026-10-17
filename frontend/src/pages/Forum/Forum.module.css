@@ -1,0 +1,41 @@
+.forumContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa; /* Fundo cinza claro para destacar as postagens depois */
+}
+
+.mainContent {
+  flex-grow: 1;
+  max-width: 1250px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.titulo {
+  color: #275296;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.descricao {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* (Mantenha o código anterior e adicione isto) */
+.forumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 1.5rem;
+  align-items: start; /* Impede que os cartões estiquem verticalmente sem necessidade */
+}
+
+@media (max-width: 768px) {
+  .forumGrid {
+    grid-template-columns: 1fr; /* Em telemóveis, fica tudo numa única coluna */
+  }
+}

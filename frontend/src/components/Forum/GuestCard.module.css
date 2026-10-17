@@ -1,0 +1,43 @@
+.cardContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 3.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  border-top: 6px solid var(--amarelo); 
+  max-width: 800px;
+  margin: 0 auto 3rem auto; 
+}
+
+.title {
+  color: #f3c623;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.text {
+  color: #555;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.loginButton {
+  background-color: var(--fundo-azul); 
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.loginButton:hover {
+  background-color: #1a4382;
+  transform: translateY(-2px); 
+}

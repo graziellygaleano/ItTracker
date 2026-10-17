@@ -70,8 +70,7 @@ export function Home(): React.JSX.Element {
             </p>
             
             <div className={styles.botoesWrapper}>
-              <Buttons texto="Login" to="/auth" />
-              <Buttons texto="Cadastrar" to="/auth" />
+              <Buttons texto="Acesse sua conta" to="/auth" />
             </div>
           </div>
 
