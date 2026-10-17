@@ -1,0 +1,22 @@
+.botao {
+  background-color: var(--azul-escuro); 
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 32px; 
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none; 
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.botao:hover {
+  background-color: #12305e;
+}
+
+.botao:active {
+  transform: scale(0.97); 
+}

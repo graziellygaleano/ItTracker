@@ -1,0 +1,78 @@
+.card {
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.titulo {
+  color: var(--fundo-azul);
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #275296;
+}
+
+.btnSubmit {
+  background-color: #275296;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btnSubmit:hover {
+  background-color: #1a4382;
+}
+
+.toggleText {
+  margin-top: 2rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #275296;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}

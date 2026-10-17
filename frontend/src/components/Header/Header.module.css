@@ -1,0 +1,56 @@
+.headerContainer {
+  background-color: var(--fundo-azul); 
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  color: var(--amarelo);
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap; 
+}
+
+.navLinks {
+  display: flex;
+  gap: 4rem;
+}
+
+.navItem {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.navItem:hover {
+  text-decoration: underline;
+}
+
+.profileIcon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .headerContainer {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem; 
+  }
+
+  .navLinks {
+    gap: 1rem; 
+    flex-wrap: wrap; 
+    justify-content: center;
+  }
+
+  .logo {
+    font-size: 1.8rem; 
+  }
+}
