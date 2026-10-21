@@ -73,7 +73,7 @@ POST {{baseUrl}}/forum/comments
 Content-Type: application/json
 
 {
-  "authorId": 1,
+  "authorId": 8,
   "content": "Alguém sabe como resolver o erro de CORS no Node.js?"
 }
 

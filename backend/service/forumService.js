@@ -1,9 +1,13 @@
 import DAO from '../repositories/dao.js';
 import Tag from '../models/tag.js';
 import Comment from '../models/comment.js';
+import CrudComment from '../repositories/crudComment.js';
+import CrudTag from '../repositories/crudTag.js';
 import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
+const crudComment = new CrudComment(db);
+const crudTag = new CrudTag(db);
 
 export class ForumService {
   static async createComment(authorId, content, rootPostId = null) {
@@ -11,22 +15,18 @@ export class ForumService {
       throw new AppError('O conteúdo do comentário não pode estar vazio.', 400);
     }
 
-    const isRoot = !rootPostId;
+    const commentType = rootPostId ? "resposta" : "post";
     const parentId = rootPostId ? Number(rootPostId) : null;
 
     if (parentId) {
-      const parentCheck = await db.queryExecutor(
-        'SELECT id FROM comentarios WHERE id = $1',
-        [parentId]
-      );
-
-      if (!parentCheck || parentCheck.length === 0) {
-        throw new AppError('O comentário pai informado não existe.', 404);
+      const parentCheck = await crudComment.findById(parentId, "post");
+      if (!parentCheck) {
+        throw new AppError('O post pai informado não existe.', 404);
       }
     }
 
     const novoComentario = new Comment(
-      isRoot,                  
+      commentType,                  
       null,                    
       Number(authorId),        
       content.trim(),         
@@ -35,71 +35,25 @@ export class ForumService {
       parentId                
     );
 
-    const queryInsert = `
-      INSERT INTO comentarios (comment_type, author_id, content, comment_date, has_replys, root_post_id) 
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id
-    `;
-
-    const resultado = await db.queryExecutor(queryInsert, [
-      novoComentario.commentType,
-      novoComentario.authorId,
-      novoComentario.content,
-      novoComentario.commentDate,
-      novoComentario.hasReplys,
-      novoComentario.rootPostID
-    ]);
-
-    if (parentId) {
-      await db.queryExecutor(
-        'UPDATE comentarios SET has_replys = true WHERE id = $1',
-        [parentId]
-      );
-    }
-
-    return resultado[0];
+    const idInserido = await crudComment.createComment(novoComentario);
+    return { id: idInserido };
   }
 
-  static async getCommentById(id) {
+  static async getCommentById(id, type = "post") {
     if (!id) {
-      throw new AppError('O ID do comentário é obrigatório.', 400);
+      throw new AppError('O ID do post/resposta é obrigatório.', 400);
     }
 
-    const rows = await db.queryExecutor(
-      'SELECT * FROM comentarios WHERE id = $1',
-      [Number(id)]
-    );
-
-    if (rows.length === 0) {
-      throw new AppError('Comentário não encontrado.', 404);
+    const comment = await crudComment.findById(Number(id), type);
+    if (!comment) {
+      throw new AppError('Postagem não encontrada.', 404);
     }
 
-    const c = rows[0];
-    return new Comment(
-      c.root_post_id === null, 
-      c.id,
-      c.author_id,
-      c.content,
-      c.comment_date,
-      c.has_replys,
-      c.root_post_id
-    );
+    return comment;
   }
 
   static async getAllRootPosts() {
-    const rows = await db.queryExecutor(
-      'SELECT * FROM comentarios WHERE root_post_id IS NULL ORDER BY comment_date DESC'
-    );
-
-    return rows.map(c => new Comment(
-      true,
-      c.id,
-      c.author_id,
-      c.content,
-      c.comment_date,
-      c.has_replys,
-      c.root_post_id
-    ));
+    return await crudComment.findAll();
   }
 
   static async getReplies(rootPostId) {
@@ -107,68 +61,52 @@ export class ForumService {
       throw new AppError('O ID da postagem pai é obrigatório.', 400);
     }
 
-    const rows = await db.queryExecutor(
-      'SELECT * FROM comentarios WHERE root_post_id = $1 ORDER BY comment_date ASC',
-      [Number(rootPostId)]
-    );
-
-    return rows.map(c => new Comment(
-      false, 
-      c.id,
-      c.author_id,
-      c.content,
-      c.comment_date,
-      c.has_replys,
-      c.root_post_id
-    ));
+    return await crudComment.getReply(Number(rootPostId));
   }
 
-  static async deleteComment(id) {
+  static async deleteComment(id, type = "post") {
     if (!id) {
-      throw new AppError('O ID do comentário é obrigatório.', 400);
+      throw new AppError('O ID do post/resposta é obrigatório.', 400);
     }
 
-    const comment = await this.getCommentById(id);
-
-    if (comment.commentType) { 
-      await db.queryExecutor('DELETE FROM tags_comentarios WHERE comentario_id = $1', [Number(id)]);
-      await db.queryExecutor('DELETE FROM comentarios WHERE root_post_id = $1', [Number(id)]);
+    const result = await crudComment.deleteById(Number(id), type);
+    if (result === 0) {
+      throw new AppError('Falha ao excluir. Postagem pode não existir.', 404);
     }
-
-    const result = await db.queryExecutor(
-      'DELETE FROM comentarios WHERE id = $1 RETURNING id',
-      [Number(id)]
-    );
-
-    return result.length > 0;
+    return true;
   }
 
-  static async addTagToComment(commentId, tagName) {
-    if (!commentId || !tagName) {
-      throw new AppError('O ID do comentário e o nome da Tag são obrigatórios.', 400);
-    }
-
-    let tagId;
-    const tagExists = await db.queryExecutor('SELECT id FROM tags WHERE name = $1', [tagName.trim()]);
-    
-    if (tagExists.length > 0) {
-      tagId = tagExists[0].id;
-    } else {
-      const novaTag = new Tag(tagName.trim());
-      const insertedTag = await db.queryExecutor(
-        'INSERT INTO tags (name) VALUES ($1) RETURNING id',
-        [novaTag.name]
-      );
-      tagId = insertedTag[0].id;
+  static async addTagToComment(postId, tagId) {
+    if (!postId || !tagId) {
+      throw new AppError('O ID do post e o ID da Tag são obrigatórios.', 400);
     }
 
     await db.queryExecutor(
-      'INSERT INTO tags_comentarios (comentario_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
-      [Number(commentId), tagId]
+      'INSERT INTO public."FiltroTags" ("Post_idPost", "Tags_idTag") VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [Number(postId), Number(tagId)]
     );
 
-    return { commentId, tagId, tagName };
+    return { postId, tagId };
+  }
+
+  static async tagExists(tagName) {
+    const tagsEncontradas = await crudTag.findByName(tagName.trim());
+    return tagsEncontradas.length > 0;
+  }
+
+  static async createTag(tagName) {
+    const novaTag = new Tag(tagName.trim(), null);
+    const idInserido = await crudTag.createTag(novaTag);
+    return { id: idInserido, name: tagName };
+  }
+
+  static async deleteTag(tagId) {
+    await crudTag.deleteById(Number(tagId));
+  }
+
+  static async globalSearch(q, filters) {
+    return { mensagem: 'Endpoint de busca global alcançado', query: q };
   }
 }
 
- export default ForumService; 
+export default ForumService;
