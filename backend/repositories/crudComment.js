@@ -1,6 +1,4 @@
-
-const Comment = require("../models/Comment");
-
+import Comment from "../models/comment.js";
 class CrudComment {
   constructor(dao) {
     this.dao = dao;
@@ -97,21 +95,13 @@ class CrudComment {
         c.id, 
         c.author_id,
         c.content,
-        c.comment_date. 
+        c.comment_date,
         c.has_replies, 
         c.root_post_id
     ));
   }
   async getReply(postId) {
-    const sql = 'SELECT
-        r."idResposta" AS id,
-        r."Conteudo" AS content,
-        r."DataPost" AS comment_date,
-        r."Usuario_idUsuario" AS author_id,
-        r."Post_idPost" AS root_post_id
-      FROM public."RespostaPost" r
-      WHERE r."Post_idPost" = $1
-      ORDER BY r."DataPost" ASC';
+    const sql = 'SELECT r."idResposta" AS id, r."Conteudo" AS content, r."DataPost" AS comment_date, r."Usuario_idUsuario" AS author_id, r."Post_idPost" AS root_post_id FROM public."RespostaPost" r WHERE r."Post_idPost" = $1 ORDER BY r."DataPost" ASC';
 
       const rows = await this.dao.queryExecutor(sql, [postId]);
 
@@ -141,9 +131,9 @@ class CrudComment {
         [id]
       );
       
-    const result = await client.query('DELETE FROM public."Post" WHERE "IdPost" = $1 Returning "idPost"',[id]);
+    const result = await client.query('DELETE FROM public."Post" WHERE "idPost" = $1 Returning "idPost"',[id]);
       return result.rows.length;
     });
   }
 }
-module.exports = CrudComment;
+export default CrudComment;

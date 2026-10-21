@@ -1,4 +1,3 @@
-// Arquivo: backend/repositories/DAO.js
 import pg from 'pg';
 import dbConfig from '../config/dbConfig.js'
 
@@ -6,19 +5,21 @@ const { Client } = pg;
 
 class DAO {
   constructor() {
-    // Injeta a configuração importada diretamente no cliente do banco
     this.client = new Client(dbConfig);
   }
 
   async connect() {
-    try {
-      await this.client.connect(); 
-      console.log('Conectado ao banco de dados Supabase com sucesso!');
-    } catch (error) {
-      console.error('Falha ao conectar no Supabase:', error.message);
-      throw error;
-    }
+  try {
+    await this.client.connect();
+    console.log("Conectado ao Supabase com sucesso!");
+  } catch (error) {
+    console.error("Falha ao conectar no Supabase:");
+    console.error(error);
+    console.error(error.stack);
+
+    throw error;
   }
+}
 
   async disconnect() {
     try {

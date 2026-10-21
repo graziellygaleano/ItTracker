@@ -1,4 +1,4 @@
-const Tag = require("../models/Tag");
+import Tag from "../models/tag.js";
 
 class CrudTag {
   constructor(dao) {
@@ -59,4 +59,4 @@ class CrudTag {
   }
 }
 
-module.exports = CrudTag;
+export default CrudTag;

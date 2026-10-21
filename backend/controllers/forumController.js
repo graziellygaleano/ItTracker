@@ -1,12 +1,11 @@
-import { ForumService } from '../services/forumService.js';
-import { AppError } from '../utils/AppError.js';
+import { ForumService } from '../service/forumService.js'
+import { AppError } from '../middlewares/appError.js';
 
 export const forumController = {
   async pesquisaGlobal(req, res, next) {
     try {
       const { q, tagId } = req.query;
 
-      // Executa a busca global passando os filtros opcionais
       const resultado = await ForumService.globalSearch(q || '', { tagId });
 
       const dados = typeof resultado === 'string' ? JSON.parse(resultado) : resultado;

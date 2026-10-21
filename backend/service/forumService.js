@@ -1,7 +1,7 @@
-import DAO from '../repositories/DAO.js';
-import Tag from '../models/Tag.js';
-import Comment from '../models/Comment.js';
-import { AppError } from '../utils/AppError.js';
+import DAO from '../repositories/dao.js';
+import Tag from '../models/tag.js';
+import Comment from '../models/comment.js';
+import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
 
@@ -25,7 +25,6 @@ export class ForumService {
       }
     }
 
-    // Instancia o modelo Comment
     const novoComentario = new Comment(
       isRoot,                  
       null,                    
@@ -59,5 +58,115 @@ export class ForumService {
     }
 
     return resultado[0];
+  }
+
+  static async getCommentById(id) {
+    if (!id) {
+      throw new AppError('O ID do comentário é obrigatório.', 400);
+    }
+
+    const rows = await db.queryExecutor(
+      'SELECT * FROM comentarios WHERE id = $1',
+      [Number(id)]
+    );
+
+    if (rows.length === 0) {
+      throw new AppError('Comentário não encontrado.', 404);
+    }
+
+    const c = rows[0];
+    return new Comment(
+      c.root_post_id === null, 
+      c.id,
+      c.author_id,
+      c.content,
+      c.comment_date,
+      c.has_replys,
+      c.root_post_id
+    );
+  }
+
+  static async getAllRootPosts() {
+    const rows = await db.queryExecutor(
+      'SELECT * FROM comentarios WHERE root_post_id IS NULL ORDER BY comment_date DESC'
+    );
+
+    return rows.map(c => new Comment(
+      true,
+      c.id,
+      c.author_id,
+      c.content,
+      c.comment_date,
+      c.has_replys,
+      c.root_post_id
+    ));
+  }
+
+  static async getReplies(rootPostId) {
+    if (!rootPostId) {
+      throw new AppError('O ID da postagem pai é obrigatório.', 400);
+    }
+
+    const rows = await db.queryExecutor(
+      'SELECT * FROM comentarios WHERE root_post_id = $1 ORDER BY comment_date ASC',
+      [Number(rootPostId)]
+    );
+
+    return rows.map(c => new Comment(
+      false, 
+      c.id,
+      c.author_id,
+      c.content,
+      c.comment_date,
+      c.has_replys,
+      c.root_post_id
+    ));
+  }
+
+  static async deleteComment(id) {
+    if (!id) {
+      throw new AppError('O ID do comentário é obrigatório.', 400);
+    }
+
+    const comment = await this.getCommentById(id);
+
+    if (comment.commentType) { 
+      await db.queryExecutor('DELETE FROM tags_comentarios WHERE comentario_id = $1', [Number(id)]);
+      await db.queryExecutor('DELETE FROM comentarios WHERE root_post_id = $1', [Number(id)]);
+    }
+
+    const result = await db.queryExecutor(
+      'DELETE FROM comentarios WHERE id = $1 RETURNING id',
+      [Number(id)]
+    );
+
+    return result.length > 0;
+  }
+
+  static async addTagToComment(commentId, tagName) {
+    if (!commentId || !tagName) {
+      throw new AppError('O ID do comentário e o nome da Tag são obrigatórios.', 400);
+    }
+
+    let tagId;
+    const tagExists = await db.queryExecutor('SELECT id FROM tags WHERE name = $1', [tagName.trim()]);
+    
+    if (tagExists.length > 0) {
+      tagId = tagExists[0].id;
+    } else {
+      const novaTag = new Tag(tagName.trim());
+      const insertedTag = await db.queryExecutor(
+        'INSERT INTO tags (name) VALUES ($1) RETURNING id',
+        [novaTag.name]
+      );
+      tagId = insertedTag[0].id;
+    }
+
+    await db.queryExecutor(
+      'INSERT INTO tags_comentarios (comentario_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [Number(commentId), tagId]
+    );
+
+    return { commentId, tagId, tagName };
   }
 }

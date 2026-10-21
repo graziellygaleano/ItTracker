@@ -13,4 +13,4 @@ router.get('/:id', userController.obterUsuario);
 router.patch('/:id/profile', userController.atualizarPerfil);
 router.delete('/:id', userController.deletarUsuario);
 
-export default router;
+export default router; 

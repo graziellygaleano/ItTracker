@@ -1,6 +1,6 @@
-import DAO from '../repositories/DAO.js';
-import User from '../models/User.js';
-import { AppError } from '../utils/AppError.js';
+import DAO from '../repositories/dao.js';
+import User from '../models/user.js'
+import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
 
@@ -103,7 +103,7 @@ export class UserService {
   }
 
   static async logOut() {
-    // Tratamento de encerramento de sessão em arquiteturas stateless (ex.: invalidação de token / cookies)
+
     return;
   }
 }
