@@ -9,14 +9,17 @@ class DAO {
   }
 
   async connect() {
-    try {
-      await this.client.connect(); 
-      console.log('Conectado ao banco de dados Supabase com sucesso!');
-    } catch (error) {
-      console.error('Falha ao conectar no Supabase:', error.message);
-      throw error;
-    }
+  try {
+    await this.client.connect();
+    console.log("Conectado ao Supabase com sucesso!");
+  } catch (error) {
+    console.error("Falha ao conectar no Supabase:");
+    console.error(error);
+    console.error(error.stack);
+
+    throw error;
   }
+}
 
   async disconnect() {
     try {

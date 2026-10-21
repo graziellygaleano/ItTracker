@@ -1,4 +1,4 @@
-import user from "../models/user.js";
+import User from "../models/user.js";
 
 class CrudUser {
     constructor(dao) {
@@ -98,4 +98,4 @@ class CrudUser {
                 });
             }
  }   
-            module.exports = CrudUser;
+export default CrudUser;
