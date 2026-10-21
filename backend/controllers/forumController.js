@@ -1,5 +1,5 @@
 import { ForumService } from '../service/forumService.js'
-import { AppError } from '../utils/AppError.js';
+import { AppError } from '../middlewares/appError.js';
 
 export const forumController = {
   async pesquisaGlobal(req, res, next) {
