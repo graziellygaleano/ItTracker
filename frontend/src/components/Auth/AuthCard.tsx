@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./AuthCard.module.css";
-import { supabase } from "../../services/supabase";
+// Removemos a importação do Supabase daqui!
 
 export function AuthCard(): React.JSX.Element {
   const [isLogin, setIsLogin] = useState(true);
@@ -23,26 +23,20 @@ export function AuthCard(): React.JSX.Element {
     setMensagem("");
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: senha,
-        });
-        if (error) throw error;
-        setMensagem("Login efetuado com sucesso!");
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email: email,
-          password: senha,
-          options: { data: { nome_completo: nome } }
-        });
-        if (error) throw error;
-        setMensagem("Cadastro realizado com sucesso! Você já pode fazer login.");
-        setIsLogin(true);
-      }
+      // ---------------------------------------------------------
+      // FUTURO: Aqui o React vai enviar o E-mail e Senha para o Backend
+      // Exemplo: await axios.post('http://localhost:3000/api/login', { email, senha })
+      // ---------------------------------------------------------
+      console.log(isLogin ? "Simulando Login..." : "Simulando Cadastro...");
+      
+      // Simulando um tempo de carregamento da API
+      setTimeout(() => {
+        setMensagem(isLogin ? "Login simulado com sucesso!" : "Cadastro simulado com sucesso!");
+        setLoading(false);
+      }, 1000);
+
     } catch (error: any) {
-      setMensagem(error.message || "Ocorreu um erro inesperado.");
-    } finally {
+      setMensagem("Erro ao conectar com a API do backend.");
       setLoading(false);
     }
   };
