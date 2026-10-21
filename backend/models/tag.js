@@ -5,4 +5,4 @@ class Tag {
   }
 }
 
-module.exports = Tag;
+export default Tag;
