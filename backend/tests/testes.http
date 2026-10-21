@@ -1,6 +1,6 @@
 ### Variáveis Globais
 @baseUrl = http://localhost:3000/api
-@userId = 8
+@userId = 15
 @postId = 13
 @tagId = 10
 
