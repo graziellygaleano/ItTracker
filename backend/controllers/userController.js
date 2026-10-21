@@ -8,7 +8,7 @@ async cadastrar(req, res, next) {
     try {
       console.log("1. Chegou no Controller! Dados:", req.body); // Rastreador 1
       
-      const { username, email, senha } = req.body;
+      const { email, senha, username } = req.body;
       if (!username || !email || !senha) {
         throw new AppError('Nome de usuário, e-mail e senha são obrigatórios.', 400);
       }

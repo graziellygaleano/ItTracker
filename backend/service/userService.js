@@ -54,35 +54,44 @@ export class UserService {
   }
 
   static async register(userdata) {
-    const { userType, name, username, email, senha, profession, institution } = userdata;
+    const { email, senha, username } = userdata;
+
+    if (!username || !email || !senha) {
+      throw new AppError('Nome de usuário, e-mail e senha são obrigatórios.', 400);
+    }
+
+    const userType = 1;
+
 
     const novoUsuario = new User(
-      null,
-      userType || 1,
-      name,
-      username,
-      email,
-      senha,
-      profession || null,
-      institution || null
+      null,         // idUsuario
+      userType,     // TipoUsuario (1)
+      username,     // Nome (usando username como fallback)
+      username,     // Username
+      email,        // Email
+      senha         // Senha
     );
 
     const checkEmail = 'SELECT "idUsuario" FROM public."Usuarios" WHERE "Email" = $1';
     const checkUser = 'SELECT "idPerfil" FROM public."Perfil" WHERE "Username" = $1';
     
     const [emailExists, userExists] = await Promise.all([
-      db.queryExecutor(checkEmail, [novoUsuario.emailHash]),
-      db.queryExecutor(checkUser, [novoUsuario.username])
+      db.queryExecutor(checkEmail, [novoUsuario.email]),
+      db.queryExecutor(checkUser, [username])
     ]);
 
-    if (emailExists.length > 0 || userExists.length > 0) {
-      throw new AppError('E-mail ou nome de usuário já existente.', 409);
+    if (emailExists.length > 0) {
+      throw new AppError('Este e-mail já está cadastrado.', 409);
+    }
+
+    if (userExists.length > 0) {
+      throw new AppError('Este nome de usuário já está em uso.', 409);
     }
 
     await crudUser.createUser(novoUsuario);
   }
 
- static async autentication(credentials) {
+  static async autentication(credentials) {
     const { email, senha } = credentials ?? {};
 
     if (!email || !senha) {
@@ -102,4 +111,4 @@ export class UserService {
   }
 }
 
- export default UserService; 
+export default UserService;

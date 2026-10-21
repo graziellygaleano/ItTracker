@@ -135,5 +135,56 @@ class CrudComment {
       return result.rows.length;
     });
   }
+
+async globalSearch(q = '', filters = {}) {
+    const { status, tagId } = filters;
+    let sql = `
+      SELECT DISTINCT 
+        p."idPost" AS id, 
+        p."Conteudo" AS content, 
+        p."DataPost" AS comment_date, 
+        p."Usuario_idUsuario" AS author_id, 
+        p."idPost" AS root_post_id,
+        (p."tem-respostas" = 1) AS has_replies
+      FROM public."Post" p
+      LEFT JOIN public."FiltroTags" ft ON ft."idPost" = p."idPost"
+      WHERE 1=1
+    `;
+
+    const params = [];
+    let paramIndex = 1;
+
+    if (q && q.trim() !== '') {
+      sql += ` AND p."Conteudo" ILIKE $${paramIndex}`;
+      params.push(`%${q.trim()}%`);
+      paramIndex++;
+    }
+
+    if (tagId) {
+      sql += ` AND ft."idTag" = $${paramIndex}`;
+      params.push(Number(tagId));
+      paramIndex++;
+    }
+
+    if (status === 'respondidas') {
+      sql += ` AND p."tem-respostas" = 1`;
+    } else if (status === 'nao_respondidas') {
+      sql += ` AND (p."tem-respostas" IS NULL OR p."tem-respostas" != 1)`;
+    }
+
+    sql += ` ORDER BY p."DataPost" DESC`;
+
+    const rows = await this.dao.queryExecutor(sql, params);
+
+    return rows.map(c => new Comment(
+      "post",
+      c.id,
+      c.author_id,
+      c.content,
+      c.comment_date,
+      c.has_replies,
+      c.root_post_id
+    ));
+  }
 }
 export default CrudComment;
