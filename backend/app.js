@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import DAO from './repositories/dao.js'; 
+
+import {userRoutes} from './routes/userRouter'
+import {forumRoutes} from './routes/forumRouter'
 
 export const app = express();
-const db = new DAO();
 
 app.use(cors()); 
 app.use(express.json());  

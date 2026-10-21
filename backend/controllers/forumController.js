@@ -1,118 +1,119 @@
-import { UserService } from '../services/userService.js';
+import { ForumService } from '../services/forumService.js';
 import { AppError } from '../utils/AppError.js';
 
-export const userController = {
-  async cadastrar(req, res, next) {
+export const forumController = {
+  async pesquisaGlobal(req, res, next) {
     try {
-      const { username, email, senha } = req.body;
+      const { q, tagId } = req.query;
 
-      if (!username || !email || !senha) {
-        throw new AppError('Nome de usuário, e-mail e senha são obrigatórios.', 400);
-      }
+      // Executa a busca global passando os filtros opcionais
+      const resultado = await ForumService.globalSearch(q || '', { tagId });
 
-      await UserService.register(req.body);
-      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
+      const dados = typeof resultado === 'string' ? JSON.parse(resultado) : resultado;
+      
+      res.status(200).json(dados);
     } catch (erro) {
       next(erro);
     }
   },
 
-  async autenticar(req, res, next) {
+  async criarComentario(req, res, next) {
     try {
-      const { email, senha } = req.body;
+      const { authorId, content } = req.body;
 
-      if (!email || !senha) {
-        throw new AppError('Informe o e-mail e a senha para efetuar o login.', 400);
+      if (!authorId || !content) {
+        throw new AppError('O identificador do autor e o conteúdo são obrigatórios.', 400);
       }
 
-      const autenticado = await UserService.autentication(req.body);
-
-      if (!autenticado) {
-        throw new AppError('Credenciais inválidas. Verifique os dados informados.', 401);
-      }
-
-      res.status(200).json({
-        autenticado: true,
-        mensagem: 'Login realizado com sucesso.'
-      });
+      await ForumService.createComment(Number(authorId), content);
+      res.status(201).json({ mensagem: 'Comentário publicado com sucesso.' });
     } catch (erro) {
       next(erro);
     }
   },
 
-  async logout(req, res, next) {
+  async removerComentario(req, res, next) {
     try {
-      await UserService.logOut();
-      res.status(200).json({ mensagem: 'Sessão encerrada com sucesso.' });
+      const { postId } = req.params;
+
+      if (!postId) {
+        throw new AppError('ID do comentário é obrigatório.', 400);
+      }
+
+      await ForumService.deleteComment(Number(postId));
+      res.status(200).json({ mensagem: 'Comentário removido com sucesso.' });
     } catch (erro) {
       next(erro);
     }
   },
 
-  async validarUsername(req, res, next) {
+  async associarTag(req, res, next) {
     try {
-      const { info, data } = req.body;
+      const { postId } = req.params;
+      const { tagId } = req.body;
 
-      if (!info) {
-        throw new AppError('Informe o nome de usuário a ser validado.', 400);
+      if (!tagId) {
+        throw new AppError('O ID da tag é obrigatório no corpo da requisição.', 400);
       }
 
-      await UserService.authUsername(info, data);
-      res.status(200).json({
-        valido: true,
-        mensagem: 'Nome de usuário disponível para uso.'
-      });
+      await ForumService.addTagToComment(Number(postId), Number(tagId));
+      res.status(201).json({ mensagem: 'Tag associada ao comentário com sucesso.' });
     } catch (erro) {
       next(erro);
     }
   },
 
-  async obterUsuario(req, res, next) {
+  async desassociarTag(req, res, next) {
     try {
-      const { id } = req.params;
+      const { postId, tagId } = req.params;
 
-      if (!id || isNaN(Number(id))) {
-        throw new AppError('O identificador do usuário informado é inválido.', 400);
-      }
-
-      const usuario = await UserService.getUser(Number(id));
-
-      if (!usuario) {
-        throw new AppError('Usuário não encontrado.', 404);
-      }
-
-      res.status(200).json(usuario);
+      await ForumService.removeTagFromComment(Number(postId), Number(tagId));
+      res.status(200).json({ mensagem: 'Tag desvinculada do comentário com sucesso.' });
     } catch (erro) {
       next(erro);
     }
   },
 
-  async atualizarPerfil(req, res, next) {
+  async verificarTag(req, res, next) {
     try {
-      const { id } = req.params;
-      const { field, newValue } = req.body;
+      const { tagName } = req.query;
 
-      if (!field || newValue === undefined) {
-        throw new AppError('Campo e novo valor devem ser fornecidos para atualização.', 400);
+      if (!tagName) {
+        throw new AppError('Informe o parâmetro tagName na query da requisição.', 400);
       }
 
-      await UserService.updateProfile(id, field, newValue);
-      res.status(200).json({ mensagem: 'Perfil atualizado com sucesso.' });
+      const existe = await ForumService.tagExists(tagName);
+      res.status(200).json({ existe });
     } catch (erro) {
       next(erro);
     }
   },
 
-  async deletarUsuario(req, res, next) {
+  async criarTag(req, res, next) {
     try {
-      const { id } = req.params;
+      const { tagName } = req.body;
 
-      if (!id) {
-        throw new AppError('O identificador do usuário é obrigatório.', 400);
+      if (!tagName || !tagName.trim()) {
+        throw new AppError('O nome da tag é obrigatório.', 400);
       }
 
-      await UserService.deleteUser(id);
-      res.status(200).json({ mensagem: 'Conta de usuário excluída com sucesso.' });
+      await ForumService.createTag(tagName.trim());
+      res.status(201).json({ mensagem: 'Tag criada com sucesso.' });
+    } catch (erro) {
+      next(erro);
+    }
+  },
+
+  async removerTag(req, res, next) {
+    try {
+      const { tagId } = req.params;
+
+      if (!tagId) {
+        throw new AppError('ID da tag não informado.', 400);
+      }
+
+      await ForumService.deleteTag(Number(tagId));
+      res.status(200).json({ mensagem: 'Tag excluída com sucesso.' });
     } catch (erro) {
       next(erro);
     }

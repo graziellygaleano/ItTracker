@@ -12,7 +12,7 @@ class DAO {
 
   async connect() {
     try {
-      await this.client.connect();
+      await this.client.connect(); 
       console.log('Conectado ao banco de dados Supabase com sucesso!');
     } catch (error) {
       console.error('Falha ao conectar no Supabase:', error.message);
@@ -20,7 +20,6 @@ class DAO {
     }
   }
 
-  // + disconnect() : void
   async disconnect() {
     try {
       await this.client.end();
@@ -30,8 +29,7 @@ class DAO {
     }
   }
 
-  // + queryExecutor(query : string) : void (Adaptado para retornar dados)
-  // O parâmetro "values" evita falhas de segurança (SQL Injection)
+
   async queryExecutor(query, values = []) {
     try {
       const result = await this.client.query(query, values);
