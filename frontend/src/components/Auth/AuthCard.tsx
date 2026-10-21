@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styles from "./AuthCard.module.css";
-// Removemos a importação do Supabase daqui!
+import { UserService } from "../../services/userService";
 
 export function AuthCard(): React.JSX.Element {
   const [isLogin, setIsLogin] = useState(true);
-  const [nome, setNome] = useState("");
+  const [username, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,20 +23,28 @@ export function AuthCard(): React.JSX.Element {
     setMensagem("");
 
     try {
-      // ---------------------------------------------------------
-      // FUTURO: Aqui o React vai enviar o E-mail e Senha para o Backend
-      // Exemplo: await axios.post('http://localhost:3000/api/login', { email, senha })
-      // ---------------------------------------------------------
-      console.log(isLogin ? "Simulando Login..." : "Simulando Cadastro...");
-      
-      // Simulando um tempo de carregamento da API
-      setTimeout(() => {
-        setMensagem(isLogin ? "Login simulado com sucesso!" : "Cadastro simulado com sucesso!");
-        setLoading(false);
-      }, 1000);
+      if (isLogin) {
+        await UserService.autentication({ email, senha });
+        setMensagem("Sessão iniciada com sucesso!");
+        
+        setTimeout(() => {
+          window.location.href = "/forum";
+        }, 1000);
 
+      } else {
+        await UserService.register({ name: username, username, email, senha });
+        setMensagem("Conta criada com sucesso! Faça login para continuar.");
+        
+        setTimeout(() => {
+          setIsLogin(true);
+          setMensagem("");
+          setNome("");
+          setSenha("");
+        }, 1500);
+      }
     } catch (error: any) {
-      setMensagem("Erro ao conectar com a API do backend.");
+      setMensagem(error.message || "Erro ao conectar com a API do backend.");
+    } finally {
       setLoading(false);
     }
   };
@@ -55,7 +63,7 @@ export function AuthCard(): React.JSX.Element {
         {!isLogin && (
           <div className={styles.inputGroup}>
             <label className={styles.label}>Nome Completo</label>
-            <input type="text" className={styles.input} placeholder="Digite seu nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
+            <input type="text" className={styles.input} placeholder="Digite seu nome" value={username} onChange={(e) => setNome(e.target.value)} required />
           </div>
         )}
 
