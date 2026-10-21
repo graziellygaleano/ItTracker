@@ -4,9 +4,9 @@ import { UserService } from "../../services/userService";
 
 export function AuthCard(): React.JSX.Element {
   const [isLogin, setIsLogin] = useState(true);
-  const [username, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [username, setNome] = useState("");
   const [loading, setLoading] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
@@ -32,7 +32,7 @@ export function AuthCard(): React.JSX.Element {
         }, 1000);
 
       } else {
-        await UserService.register({ name: username, username, email, senha });
+        await UserService.register({ email, senha, username });
         setMensagem("Conta criada com sucesso! Faça login para continuar.");
         
         setTimeout(() => {

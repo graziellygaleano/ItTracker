@@ -26,7 +26,7 @@ export const UserService = {
     return resposta.json();
   },
 
-  async register(userData: { name: string; username: string; email: string; senha: string }) {
+  async register(userData: { email: string; senha: string; username: string; }) {
     const resposta = await fetch(`${USERS_ENDPOINT}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
