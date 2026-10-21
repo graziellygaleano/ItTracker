@@ -27,7 +27,7 @@ class CrudTag {
       ORDER BY "idTag"
     `;
 
-    const rows = await this.dao.queryExecutor(sql);
+    const rows = await this.dao.queryExecutor(sql,[name]);
 
     return rows
       .filter(t => t.TipoTag === name)

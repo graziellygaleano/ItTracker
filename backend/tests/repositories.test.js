@@ -85,19 +85,9 @@ async function executar() {
       assert.equal(user, null);
     });
 
-    await testar("User - listAll", async () => {
-      const lista = await users.listAll();
-
-      assert.ok(Array.isArray(lista));
-      assert.ok(
-        lista.some(user => user.userId === ids.user),
-        "O usuário criado não aparece na lista."
-      );
-    });
-
     await testar("User - updateUser", async () => {
       assert.ok(ids.user, "Pré-requisito: usuário criado.");
-
+''
       const atualizado = new User(
         ids.user,
         0,

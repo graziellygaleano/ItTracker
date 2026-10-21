@@ -1,0 +1,103 @@
+### Variáveis Globais
+@baseUrl = http://localhost:3000/api
+@userId = 1
+@postId = 1
+@tagId = 1
+
+# ==========================================
+# TESTES DE USUÁRIO (/api/users)
+# ==========================================
+
+### Cadastrar Usuário
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "username": "joaosilva",
+  "email": "joao@email.com",
+  "senha": "senha_segura_123",
+  "name": "João Silva",
+  "userType": 1,
+  "profession": "Desenvolvedor",
+  "institution": "IFSP"
+}
+
+### Autenticar (Login)
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "senha": "senha_segura_123"
+}
+
+### Validar Username
+POST {{baseUrl}}/users/check-username
+Content-Type: application/json
+
+{
+  "info": "joaosilva"
+}
+
+### Obter Usuário por ID
+GET {{baseUrl}}/users/{{userId}}
+
+### Atualizar Perfil do Usuário
+PATCH {{baseUrl}}/users/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "field": "profession",
+  "newValue": "Engenheiro de Software"
+}
+
+### Realizar Logout
+POST {{baseUrl}}/users/logout
+
+### Deletar Usuário
+DELETE {{baseUrl}}/users/{{userId}}
+
+
+# ==========================================
+# TESTES DO FÓRUM (/api/forum)
+# ==========================================
+
+### Pesquisa Global (Fórum)
+GET {{baseUrl}}/forum/search?q=ajuda&tagId=1
+
+### Criar Comentário / Post
+POST {{baseUrl}}/forum/comments
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "content": "Alguém sabe como resolver o erro de CORS no Node.js?"
+}
+
+### Remover Comentário / Post
+DELETE {{baseUrl}}/forum/comments/{{postId}}
+
+### Verificar se Tag Existe
+GET {{baseUrl}}/forum/tags/exists?tagName=javascript
+
+### Criar Nova Tag
+POST {{baseUrl}}/forum/tags
+Content-Type: application/json
+
+{
+  "tagName": "javascript"
+}
+
+### Associar Tag a um Comentário/Post
+POST {{baseUrl}}/forum/comments/{{postId}}/tags
+Content-Type: application/json
+
+{
+  "tagId": 1
+}
+
+### Desassociar Tag de um Comentário/Post
+DELETE {{baseUrl}}/forum/comments/{{postId}}/tags/{{tagId}}
+
+### Remover Tag do Sistema
+DELETE {{baseUrl}}/forum/tags/{{tagId}}
