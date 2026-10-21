@@ -77,12 +77,26 @@ export class ForumService {
   }
 
   static async addTagToComment(postId, tagId) {
+
     if (!postId || !tagId) {
       throw new AppError('O ID do post e o ID da Tag são obrigatórios.', 400);
     }
 
     await db.queryExecutor(
-      'INSERT INTO public."FiltroTags" ("Post_idPost", "Tags_idTag") VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      'INSERT INTO public."FiltroTags" ("idTag", "idPost") VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [Number(tagId), Number(postId)]
+    );
+
+    return { postId, tagId };
+  }
+
+  static async removeTagFromComment(postId, tagId) {
+    if (!postId || !tagId) {
+      throw new AppError('O ID do post e o ID da Tag são obrigatórios.', 400);
+    }
+
+    await db.queryExecutor(
+      'DELETE FROM public."FiltroTags" WHERE "idPost" = $1 AND "idTag" = $2',
       [Number(postId), Number(tagId)]
     );
 
@@ -105,7 +119,7 @@ export class ForumService {
   }
 
   static async globalSearch(q, filters) {
-    return { mensagem: 'Endpoint de busca global alcançado', query: q };
+    return await crudComment.globalSearch(q, filters);
   }
 }
 

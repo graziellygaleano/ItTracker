@@ -7,24 +7,24 @@ class CrudUser {
 
     async createUser(user) {
         return this.dao.transaction(async client => {
+            
             const usuarioResult = await client.query(
                 'INSERT INTO public."Usuarios"("Email", "Senha", "TipoUsuario") VALUES ($1, $2, $3) RETURNING "idUsuario"',
                 [
-                    user.emailHash,
-                    user.passHash,
-                    user.userType
+                    user.email || user.emailHash,
+                    user.senha || user.passHash,
+                    user.userType ?? 0 // Salva o tipo de usuário ou usa 0 como padrão
                 ]
             );
 
             const idGerado = usuarioResult.rows[0].idUsuario;
 
+            // 2. Insere na tabela Perfil apenas com os dados básicos necessários
             await client.query(
-                'INSERT INTO public."Perfil"("idPerfil", "Nome", "Profissao", "Instituicao", "Username") VALUES ($1, $2, $3, $4, $5)',
+                'INSERT INTO public."Perfil"("idPerfil", "Nome", "Username") VALUES ($1, $2, $3)',
                 [
                     idGerado,
-                    user.name,
-                    user.profession,
-                    user.institution,
+                    user.name || user.username, // Garante um valor para o Nome caso venha apenas o username
                     user.username
                 ]
             );

@@ -1,8 +1,8 @@
 ### Variáveis Globais
 @baseUrl = http://localhost:3000/api
 @userId = 8
-@postId = 1
-@tagId = 1
+@postId = 13
+@tagId = 10
 
 # ==========================================
 # TESTES DE USUÁRIO (/api/users)
@@ -11,18 +11,17 @@
 ### Teste Simples
 GET http://localhost:3000/api
 
-### Cadastrar Usuário
+### Cadastrar Novo Usuário
+
 POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-  "username": "joaosilva",
-  "email": "joao@email.com",
+  "email": "marialuiza@email.com",
   "senha": "senha_segura_123",
-  "name": "João Silva",
-  "userType": 1,
-  "profession": "Desenvolvedor",
-  "institution": "IFSP"
+  "username": "marialuiza"
+  
+  
 }
 
 ### Autenticar (Login)
@@ -74,11 +73,23 @@ Content-Type: application/json
 
 {
   "authorId": 8,
-  "content": "Alguém sabe como resolver o erro de CORS no Node.js?"
+  "content": "a"
 }
 
 ### Remover Comentário / Post
 DELETE {{baseUrl}}/forum/comments/{{postId}}
+
+### Adicionar Resposta (Reply) a um Post
+POST {{baseUrl}}/forum/comments
+Content-Type: application/json
+
+{
+  "authorId": {{userId}},
+  "content": "Para resolver o erro de CORS, você precisa instalar o pacote cors e ativá-lo no seu app.js com app.use(cors());",
+  "rootPostId": {{postId}}
+}
+
+
 
 ### Verificar se Tag Existe
 GET {{baseUrl}}/forum/tags/exists?tagName=javascript
@@ -96,7 +107,7 @@ POST {{baseUrl}}/forum/comments/{{postId}}/tags
 Content-Type: application/json
 
 {
-  "tagId": 1
+  "tagId": 10
 }
 
 ### Desassociar Tag de um Comentário/Post
@@ -104,3 +115,23 @@ DELETE {{baseUrl}}/forum/comments/{{postId}}/tags/{{tagId}}
 
 ### Remover Tag do Sistema
 DELETE {{baseUrl}}/forum/tags/{{tagId}}
+
+
+# ==========================================
+# TESTES DE PESQUISA GLOBAL (/api/forum/search)
+# ==========================================
+
+### 1. Pesquisa Global Simples (Apenas termo de busca)
+GET {{baseUrl}}/forum/search?q=CORS
+
+### 2. Pesquisa Global filtrando apenas por Tag
+GET {{baseUrl}}/forum/search?tagId={{tagId}}
+
+### 3. Pesquisa Global filtrando por Posts Respondidos
+GET {{baseUrl}}/forum/search?status=respondidas
+
+### 4. Pesquisa Global filtrando por Posts Não Respondidos
+GET {{baseUrl}}/forum/search?status=nao_respondidas
+
+### 5. Pesquisa Global Completa (Termo + Tag + Status)
+GET {{baseUrl}}/forum/search?q=erro&tagId={{tagId}}&status=nao_respondidas
