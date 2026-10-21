@@ -1,57 +1,20 @@
 import pg from 'pg';
 import dbConfig from '../config/dbConfig.js'
 
-const { Client } = pg;
+const { Pool } = pg; 
 
 class DAO {
   constructor() {
-    this.client = new Client(dbConfig);
+
+    this.pool = new Pool(dbConfig);
   }
 
-  async connect() {
-  try {
-    await this.client.connect();
-    console.log("Conectado ao Supabase com sucesso!");
-  } catch (error) {
-    console.error("Falha ao conectar no Supabase:");
-    console.error(error);
-    console.error(error.stack);
 
-    throw error;
-  }
-}
-
-  async disconnect() {
-    try {
-      await this.client.end();
-      console.log('Desconectado do banco de dados.');
-    } catch (error) {
-      console.error('Falha ao desconectar:', error.message);
-    }
-  }
-  async transaction(callback) {
-  try {
-    await this.client.query("BEGIN");
-
-    const result = await callback(this.client);
-
-    await this.client.query("COMMIT");
-    return result;
-  } catch (error) {
-    try {
-      await this.client.query("ROLLBACK");
-    } catch (rollbackError) {
-      console.error("Falha no rollback:", rollbackError.message);
-    }
-
-    throw new Error(this.handleError(error));
-  }
-}
 
   async queryExecutor(query, values = []) {
     try {
-      const result = await this.client.query(query, values);
-      return result.rows; // Retorna os dados encontrados
+      const result = await this.pool.query(query, values);
+      return result.rows; 
     } catch (error) {
       const errorMessage = this.handleError(error);
       throw new Error(errorMessage);
@@ -59,10 +22,32 @@ class DAO {
   }
 
 
+  // Executa uma transação com rollback em caso de erro (Atomicidade)
+  async transaction(callback) {
 
-  // + handleError(error) : string
+    const client = await this.pool.connect();
+    try {
+      await client.query("BEGIN");
+
+
+      const result = await callback(client);
+
+      await client.query("COMMIT");
+      return result;
+    } catch (error) {
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error("Falha no rollback:", rollbackError.message);
+      }
+      throw new Error(this.handleError(error));
+    } finally {
+
+      client.release();
+    }
+  }
+
   handleError(error) {
-    // Mapeamento de códigos de erro padrão do PostgreSQL/Supabase
     if (error.code === '28P01') {
       return 'Erro de autenticação: Senha ou usuário do banco incorretos.';
     }

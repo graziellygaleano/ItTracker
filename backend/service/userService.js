@@ -1,8 +1,10 @@
 import DAO from '../repositories/dao.js';
-import User from '../models/user.js'
+import User from '../models/user.js';
+import CrudUser from '../repositories/crudUser.js';
 import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
+const crudUser = new CrudUser(db);
 
 export class UserService {
   static async updateProfile(userId, field, newValue) {
@@ -12,12 +14,21 @@ export class UserService {
       throw new AppError(`O campo '${field}' não tem permissão para ser alterado.`, 400);
     }
 
-    const query = `UPDATE usuarios SET ${field} = $1 WHERE id = $2`;
-    await db.queryExecutor(query, [newValue, userId]);
+    const user = await crudUser.findById(Number(userId));
+    if (!user) {
+      throw new AppError('Usuário não encontrado.', 404);
+    }
+
+    user[field] = newValue;
+
+    const sucesso = await crudUser.updateUser(user);
+    if (!sucesso) {
+      throw new AppError('Falha ao atualizar o perfil.', 500);
+    }
   }
 
   static async authUsername(info, data) {
-    const query = 'SELECT id FROM usuarios WHERE username = $1';
+    const query = 'SELECT "idPerfil" FROM public."Perfil" WHERE "Username" = $1';
     const rows = await db.queryExecutor(query, [info]);
 
     if (rows && rows.length > 0) {
@@ -26,84 +37,69 @@ export class UserService {
   }
 
   static async getUser(userId) {
-    const query = `
-      SELECT id, user_type, name, username, email, senha, profession, institution 
-      FROM usuarios 
-      WHERE id = $1
-    `;
-    const rows = await db.queryExecutor(query, [userId]);
+    const user = await crudUser.findById(Number(userId));
 
-    if (!rows || rows.length === 0) {
+    if (!user) {
       throw new AppError('Usuário não encontrado.', 404);
     }
 
-    const u = rows[0];
-
-    return new User(
-      u.id,
-      u.user_type,
-      u.name,
-      u.username,
-      u.email,
-      u.senha,
-      u.profession,
-      u.institution
-    );
+    return user;
   }
 
   static async deleteUser(userId) {
-    const query = 'DELETE FROM usuarios WHERE id = $1';
-    await db.queryExecutor(query, [userId]);
+    const deletado = await crudUser.deleteById(Number(userId));
+    if (!deletado) {
+      throw new AppError('Usuário não encontrado para exclusão.', 404);
+    }
   }
 
   static async register(userdata) {
-    const { userType, name, username, emailHash, passHash, profession, institution } = userdata;
+    const { userType, name, username, email, senha, profession, institution } = userdata;
 
     const novoUsuario = new User(
       null,
       userType || 1,
       name,
       username,
-      emailHash,
-      passHash,
+      email,
+      senha,
       profession || null,
       institution || null
     );
 
-    const checkQuery = 'SELECT id FROM usuarios WHERE email = $1 OR username = $2';
-    const existentes = await db.queryExecutor(checkQuery, [novoUsuario.emailHash, novoUsuario.username]);
+    const checkEmail = 'SELECT "idUsuario" FROM public."Usuarios" WHERE "Email" = $1';
+    const checkUser = 'SELECT "idPerfil" FROM public."Perfil" WHERE "Username" = $1';
+    
+    const [emailExists, userExists] = await Promise.all([
+      db.queryExecutor(checkEmail, [novoUsuario.emailHash]),
+      db.queryExecutor(checkUser, [novoUsuario.username])
+    ]);
 
-    if (existentes && existentes.length > 0) {
+    if (emailExists.length > 0 || userExists.length > 0) {
       throw new AppError('E-mail ou nome de usuário já existente.', 409);
     }
 
-    const insertQuery = `
-      INSERT INTO usuarios (user_type, name, username, email, senha, profession, institution) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-    `;
-
-    await db.queryExecutor(insertQuery, [
-      novoUsuario.userType,
-      novoUsuario.name,
-      novoUsuario.username,
-      novoUsuario.emailHash,
-      novoUsuario.passHash,
-      novoUsuario.profession,
-      novoUsuario.institution
-    ]);
+    await crudUser.createUser(novoUsuario);
   }
 
-  static async autentication(credencials) {
-    const { email, senha } = credencials;
+ static async autentication(credentials) {
+    const { email, senha } = credentials ?? {};
 
-    const query = 'SELECT id, email, senha FROM usuarios WHERE email = $1 AND senha = $2';
-    const rows = await db.queryExecutor(query, [email, senha]);
+    if (!email || !senha) {
+      return false;
+    }
 
-    return Boolean(rows && rows.length > 0);
+    const user = await crudUser.findByCredentials(
+      email,
+      senha
+    );
+
+    return Boolean(user);
   }
 
   static async logOut() {
-
     return;
   }
 }
+
+ export default UserService; 

@@ -17,5 +17,15 @@ app.get('/api', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/forum', forumRouter);
 
+app.use((err, req, res, next) => {
+  console.error("ERRO CAPTURADO:", err.message);
+  
+  const status = err.statusCode || 500;
+  res.status(status).json({ 
+    erro: err.message,
+    status: status
+  });
+});
+
 export default app;
 

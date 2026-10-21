@@ -1,12 +1,15 @@
 ### Variáveis Globais
 @baseUrl = http://localhost:3000/api
-@userId = 1
+@userId = 8
 @postId = 1
 @tagId = 1
 
 # ==========================================
 # TESTES DE USUÁRIO (/api/users)
 # ==========================================
+
+### Teste Simples
+GET http://localhost:3000/api
 
 ### Cadastrar Usuário
 POST {{baseUrl}}/users/register

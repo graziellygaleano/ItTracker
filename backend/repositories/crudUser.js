@@ -4,98 +4,113 @@ class CrudUser {
     constructor(dao) {
         this.dao = dao;
     }
+
     async createUser(user) {
         return this.dao.transaction(async client => {
-            const perfil = await client.query(
-                'INSERT INTO public."Perfil"("idPerfil", "Nome", "Profissao", "Instituicao", "Username") VALUES ($1, $2, $3, $4, $5) RETURNING "idPerfil"',
-                [user.username,
-                user.name,
-                user.profession,
-                user.institution,
-                user.username
+            const usuarioResult = await client.query(
+                'INSERT INTO public."Usuarios"("Email", "Senha", "TipoUsuario") VALUES ($1, $2, $3) RETURNING "idUsuario"',
+                [
+                    user.emailHash,
+                    user.passHash,
+                    user.userType
                 ]
             );
-            const perfilId = perfil.rows[0].idPerfil;
-            const usuario = await client.query(
-                'INSERT INTO public."Usuarios"("Email","Senha","TipoUsuario","Perfil_idPerfil") VALUES ($1, $2, $3, $4) RETURNING "idUsuario"', [
-                user.emailHash,
-                user.passHash,
-                user.userType,
-                perfilId
-            ]
+
+            const idGerado = usuarioResult.rows[0].idUsuario;
+
+            await client.query(
+                'INSERT INTO public."Perfil"("idPerfil", "Nome", "Profissao", "Instituicao", "Username") VALUES ($1, $2, $3, $4, $5)',
+                [
+                    idGerado,
+                    user.name,
+                    user.profession,
+                    user.institution,
+                    user.username
+                ]
             );
-            return usuario.rows[0].idUsuario;
+
+            return idGerado;
         });
     }
+
     async findById(id) {
         const sql = `
-        SELECT u."idUsuario", u."TipoUsuario", u."Email", u."Senha", p."Nome", p."Username", p."Profissao", p."Instituicao", p."idPerfil"
-        FROM public."Usuarios" u JOIN public."Perfil" p
-        ON p."idPerfil" = u."Perfil_idPerfil"
-        WHERE u."idUsuario" = $1`;
+            SELECT u."idUsuario", u."TipoUsuario", u."Email", u."Senha", 
+                   p."Nome", p."Username", p."Profissao", p."Instituicao", p."idPerfil"
+            FROM public."Usuarios" u 
+            JOIN public."Perfil" p ON p."idPerfil" = u."idUsuario"
+            WHERE u."idUsuario" = $1
+        `;
+        
         const rows = await this.dao.queryExecutor(sql, [id]);
         if (rows.length === 0) return null;
 
         const u = rows[0];
-        return new User(u.idUsuario, u.TipoUsuario, u.Nome, u.Username, u.Email, u.Senha, u.Profissao, u.Instituicao);
+        return new User(
+            u.idUsuario, 
+            u.TipoUsuario, 
+            u.Nome, 
+            u.Username, 
+            u.Email, 
+            u.Senha, 
+            u.Profissao, 
+            u.Instituicao
+        );
     }
-      async updateUser(user) {
-            return this.dao.transaction(async client => {
-                const usuario = await client.query(
-                    `UPDATE public."Usuarios"
-         SET "Email" = $1, "Senha" = $2, "TipoUsuario" = $3
-         WHERE "idUsuario" = $4
-         RETURNING "Perfil_idPerfil"`,
-                    [
-                        user.emailHash,
-                        user.passHash,
-                        user.userType,
-                        user.userId
-                    ]
-                );
-                if (usuario.rows.length === 0) return 0;
+    
+    async findByCredentials(email, senha) {
+        const sql = `
+            SELECT "idUsuario"
+            FROM public."Usuarios"
+            WHERE "Email" = $1 AND "Senha" = $2
+            LIMIT 1
+        `;
+        
+        const rows = await this.dao.queryExecutor(sql, [email, senha]);
+        
+        return rows.length > 0 ? rows[0] : null;
+    }
 
-                const perfilId = usuario.rows[0].Perfil_idPerfil;
+    async updateUser(user) {
+        return this.dao.transaction(async client => {
+            const usuario = await client.query(
+                `UPDATE public."Usuarios"
+                 SET "Email" = $1, "Senha" = $2, "TipoUsuario" = $3
+                 WHERE "idUsuario" = $4
+                 RETURNING "idUsuario"`,
+                [
+                    user.emailHash,
+                    user.passHash,
+                    user.userType,
+                    user.userId
+                ]
+            );
+            
+            if (usuario.rows.length === 0) return 0;
 
-                await client.query(
-                    `UPDATE public."Perfil"
-         SET "Nome" = $1,
-             "Username" = $2,
-             "Profissao" = $3,
-             "Instituicao" = $4
-         WHERE "idPerfil" = $5`,
-                    [
-                        user.name,
-                        user.username,
-                        user.profession,
-                        user.institution,
-                        perfilId
-                    ]
-                );
+            await client.query(
+                `UPDATE public."Perfil"
+                 SET "Nome" = $1, "Username" = $2, "Profissao" = $3, "Instituicao" = $4
+                 WHERE "idPerfil" = $5`,
+                [
+                    user.name,
+                    user.username,
+                    user.profession,
+                    user.institution,
+                    user.userId 
+                ]
+            );
 
-                return 1;
-            });
-         }
- async deleteById(id) {
-                return this.dao.transaction(async client => {
-                    const result = await client.query(
-                        `DELETE FROM public."Usuarios"
-         WHERE "idUsuario" = $1
-         RETURNING "Perfil_idPerfil"`,
-                        [id]
-                    );
+            return 1;
+        });
+    }
 
-                    if (result.rows.length === 0) return 0;
+    async deleteById(id) {
+        const sql = `DELETE FROM public."Usuarios" WHERE "idUsuario" = $1 RETURNING "idUsuario"`;
+        const rows = await this.dao.queryExecutor(sql, [id]);
+        
+        return rows.length > 0 ? 1 : 0;
+    }
+}
 
-                    const perfilId = result.rows[0].Perfil_idPerfil;
-
-                    await client.query(
-                        `DELETE FROM public."Perfil"
-         WHERE "idPerfil" = $1`,
-                        [perfilId]
-                    );
-                    return 1;
-                });
-            }
- }   
 export default CrudUser;

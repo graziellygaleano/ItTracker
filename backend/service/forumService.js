@@ -170,3 +170,5 @@ export class ForumService {
     return { commentId, tagId, tagName };
   }
 }
+
+ export default ForumService; 
