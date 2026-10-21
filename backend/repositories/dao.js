@@ -29,7 +29,24 @@ class DAO {
       console.error('Falha ao desconectar:', error.message);
     }
   }
+  async transaction(callback) {
+  try {
+    await this.client.query("BEGIN");
 
+    const result = await callback(this.client);
+
+    await this.client.query("COMMIT");
+    return result;
+  } catch (error) {
+    try {
+      await this.client.query("ROLLBACK");
+    } catch (rollbackError) {
+      console.error("Falha no rollback:", rollbackError.message);
+    }
+
+    throw new Error(this.handleError(error));
+  }
+}
 
   async queryExecutor(query, values = []) {
     try {
