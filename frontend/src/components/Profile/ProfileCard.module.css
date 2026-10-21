@@ -1,0 +1,199 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #eff6ff; 
+  color: #275296;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 2.5rem;
+}
+
+.nameBlock h2 {
+  color: #1a2b4c;
+  font-size: 1.8rem;
+  margin: 0 0 0.2rem 0;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.nameBlock p {
+  color: #64748b;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.input {
+  padding: 1rem 1.2rem;
+  background-color: #f8fafc;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  color: #1e293b;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #275296;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(39, 82, 150, 0.05);
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid #f0f4f8;
+}
+
+.rightButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  border: none;
+}
+
+.btnSave {
+  background-color: #f3c623;
+  color: #1a202c;
+  box-shadow: 0 4px 15px rgba(243, 198, 35, 0.2);
+}
+
+.btnSave:hover {
+  background-color: #e5b344;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 198, 35, 0.4);
+}
+
+.btnLogout {
+  background-color: transparent;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.btnLogout:hover {
+  border-color: #94a3b8;
+  color: #1e293b;
+}
+
+.btnDelete {
+  background-color: #fef2f2;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.btnDelete:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.passwordWrapper .input {
+  width: 100%;
+  padding-right: 3rem; 
+}
+
+.eyeButton {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #94a3b8; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.eyeButton:hover {
+  color: #275296; 
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .actionButtons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+  }
+  .rightButtons {
+    width: 100%;
+    flex-direction: column;
+  }
+  .btn {
+    width: 100%;
+  }
+}

@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--cinza);
+  background-color: #f4f7fb; 
 }
 
 .mainContent {
@@ -10,5 +10,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 4rem 2rem; 
 }
