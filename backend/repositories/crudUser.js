@@ -1,4 +1,5 @@
 import user from "../models/user.js";
+
 class CrudUser {
     constructor(dao) {
         this.dao = dao;

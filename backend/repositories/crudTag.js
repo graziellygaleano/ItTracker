@@ -1,4 +1,5 @@
 import tag from "../models/tag.js";
+
 class CrudTag {
   constructor(dao) {
     this.dao = dao;
