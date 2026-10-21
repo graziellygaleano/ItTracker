@@ -1,7 +1,7 @@
 .filterContainer {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  gap: 1.5rem;
+  margin-bottom: 3rem; 
   width: 100%;
 }
 
@@ -10,35 +10,90 @@
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 10px;
-  padding: 0.5rem 1.2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
-  border: 1px solid transparent;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border-radius: 50px; 
+  padding: 0.8rem 1.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04); 
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
 }
 
 .searchWrapper:focus-within {
-  border-color: var(--fundo-azul);
-  box-shadow: 0 4px 12px rgba(39, 82, 150, 0.1);
+  border-color: #275296;
+  box-shadow: 0 8px 25px rgba(39, 82, 150, 0.1);
+  transform: translateY(-2px);
 }
 
 .searchInput {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 1.05rem;
-  color: #333;
+  font-size: 1.1rem;
+  color: #1a2b4c;
   background: transparent;
+  font-family: inherit;
 }
 
 .searchInput::placeholder {
-  color: #999;
+  color: #94a3b8;
 }
 
-.searchIcon {
-  color: var(--fundo-azul);
-  font-size: 1.2rem;
+.searchIcon:hover {
+  transform: scale(1.1);
+}
+
+.filterWrapper {
+  position: relative;
+}
+
+.btnFilter {
+  background-color: #275296;
+  color: white;
+  border: none;
+  padding: 0.8rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 220px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(39, 82, 150, 0.2);
+  font-family: inherit;
+}
+
+.btnFilter:hover {
+  background-color: #1a3c74;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 82, 150, 0.3);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 115%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.dropdownItem {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  color: #475569;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.dropdownItem:hover {
+  background-color: #f8fafc;
+  color: #275296;
+  padding-left: 1.8rem; 
 }
 
 @media (max-width: 768px) {

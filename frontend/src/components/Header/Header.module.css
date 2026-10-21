@@ -50,17 +50,27 @@
   color: #ffffff;
 }
 
-.profileIcon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+.avatar {
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #eff6ff; 
+  color: #275296; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 
-.profileIcon:hover {
+.avatar:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.profileLink {
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

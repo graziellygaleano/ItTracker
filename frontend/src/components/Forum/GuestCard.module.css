@@ -1,43 +1,61 @@
 .cardContainer {
   background-color: #ffffff;
-  border-radius: 12px;
-  padding: 3.5rem 2rem;
+  border-radius: 20px; 
+  padding: 4rem 3rem; 
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  margin-bottom: 2rem;
-  border-top: 6px solid var(--amarelo); 
-  max-width: 800px;
-  margin: 0 auto 3rem auto; 
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05); 
+  margin: 2rem auto 4rem auto;
+  max-width: 700px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.cardContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #f3c623, #fde047);
 }
 
 .title {
-  color: #f3c623;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
+  color: #275296; 
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .text {
-  color: #555;
+  color: #475569;
   font-size: 1.15rem;
-  line-height: 1.6;
-  max-width: 600px;
+  line-height: 1.8;
+  max-width: 550px;
   margin: 0 auto 2.5rem auto;
 }
 
+.text strong {
+  color: #275296; 
+}
+
 .loginButton {
-  background-color: var(--fundo-azul); 
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 1rem;
+  background-color: #f3c623; 
+  color: #1a202c;
+  padding: 1rem 3rem;
+  border-radius: 50px; 
+  font-weight: 800;
+  font-size: 1.1rem;
   text-decoration: none;
   display: inline-block;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(243, 198, 35, 0.2);
 }
 
 .loginButton:hover {
-  background-color: #1a4382;
-  transform: translateY(-2px); 
+  background-color: #e5b344;
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 20px rgba(243, 198, 35, 0.4);
 }

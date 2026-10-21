@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
 export function Header(): React.JSX.Element {
-  // ------------------------------------------------------------------
-  // VARIÁVEL DE TESTE:
-  // No futuro, quando o utilizador fizer login, o backend vai mudar isto para "true".
-  // Por enquanto, experimente mudar a palavra "false" para "true" e guardar o ficheiro!
-  // ------------------------------------------------------------------
-  const usuarioEstaLogado = false; 
+  const usuarioEstaLogado = true; 
+
+  // No futuro, quando a API estiver ligada, você vai pegar a primeira letra 
+  // do nome do utilizador que veio do banco de dados (ex: usuario.nome.charAt(0))
+  const inicialUsuario = "M"; 
 
   return (
     <header className={styles.headerContainer}>
@@ -27,15 +26,13 @@ export function Header(): React.JSX.Element {
 
       <div>
         {usuarioEstaLogado ? (
-          <Link to="/perfil">
-            <img 
-              src="/img/account-white-icon.webp" 
-              alt="Perfil" 
-              className={styles.profileIcon} 
-            />
+          <Link to="/perfil" className={styles.profileLink}>
+            <div className={styles.avatar}>
+              {inicialUsuario}
+            </div>
           </Link>
         ) : (
-          <div style={{ width: "35px" }}></div>
+          <div style={{ width: "42px" }}></div>
         )}
       </div>
 

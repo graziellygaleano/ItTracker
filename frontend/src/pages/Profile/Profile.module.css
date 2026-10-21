@@ -1,0 +1,14 @@
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f7fb;
+}
+
+.mainContent {
+  flex-grow: 1;
+  width: 100%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: flex-start; /* Permite que o cartão fique mais acima na página */
+}
