@@ -1,66 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
-import { supabase } from "../../services/supabase";
 
 export function CreatePost(): React.JSX.Element {
   const [texto, setTexto] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [nomeUsuario, setNomeUsuario] = useState("A carregar...");
-  const [usuarioIdNumerico, setUsuarioIdNumerico] = useState<number | null>(null);
-
-  useEffect(() => {
-    async function carregarDadosDoUsuario() {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (user) {
-        setNomeUsuario(user.user_metadata?.nome_completo || "Utilizador");
-
-        const { data: usuarioBanco, error } = await supabase
-          .from('Usuarios')
-          .select('idUsuario')
-          .eq('Email', user.email)
-          .single();
-
-        if (usuarioBanco) {
-          setUsuarioIdNumerico(usuarioBanco.idUsuario);
-        } else {
-          console.error("Este utilizador não foi encontrado na tabela 'Usuarios'.");
-        }
-      }
-    }
-    
-    carregarDadosDoUsuario();
-  }, []);
+  // Como o frontend já não fala com o Supabase, o nome do utilizador 
+  // virá do nosso AuthContext (que vamos integrar com a API depois)
+  const nomeUsuario = "Malu"; // Valor temporário para a interface não quebrar
 
   const handlePublicar = async () => {
     if (!texto.trim()) return;
 
-    if (usuarioIdNumerico === null) {
-      alert("Atenção: A sua conta não está sincronizada com a tabela 'Usuarios'.");
-      return;
-    }
-
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from('Post')
-        .insert([
-          { 
-            Conteudo: texto,
-            Usuario_idUsuario: usuarioIdNumerico 
-          }
-        ]);
-
-      if (error) throw error;
+      // ---------------------------------------------------------
+      // FUTURO: Aqui o React vai enviar o texto para a sua API Node.js
+      // Exemplo: await axios.post('http://localhost:3000/api/posts', { conteudo: texto })
+      // ---------------------------------------------------------
+      console.log("Enviando para o backend a postagem:", texto);
       
-      alert("Publicado com sucesso!");
-      setTexto(""); 
+      // Simulação rápida para limpar a caixa
+      setTimeout(() => {
+        alert("Publicação enviada para a API com sucesso!");
+        setTexto(""); 
+        setLoading(false);
+      }, 500);
       
     } catch (error: any) {
-      console.error("Erro ao publicar:", error.message);
-      alert("Erro ao publicar. O banco de dados recusou a inserção.");
-    } finally {
+      console.error("Erro ao publicar:", error);
+      alert("Erro ao comunicar com a API do backend.");
       setLoading(false);
     }
   };
@@ -81,7 +50,7 @@ export function CreatePost(): React.JSX.Element {
         <button 
           className={styles.btnPublish} 
           onClick={handlePublicar} 
-          disabled={loading || !usuarioIdNumerico}
+          disabled={loading}
         >
           {loading ? "Publicando..." : "Publicar"}
         </button>

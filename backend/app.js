@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
-import {userRoutes} from './routes/userRouter'
-import {forumRoutes} from './routes/forumRouter'
+import {userRoutes} from './routes/userRouter.js'
+import {forumRoutes} from './routes/forumRouter.js'
 
 export const app = express();
 

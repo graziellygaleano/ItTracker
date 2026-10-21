@@ -1,4 +1,4 @@
-import DAO from '../repositories/DAO.js';
+import DAO from '../repositories/dao.js';
 import User from '../models/User.js';
 import { AppError } from '../utils/AppError.js';
 

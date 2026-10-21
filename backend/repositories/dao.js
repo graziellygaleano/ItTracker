@@ -1,4 +1,3 @@
-// Arquivo: backend/repositories/DAO.js
 import pg from 'pg';
 import dbConfig from '../config/dbConfig.js'
 
@@ -6,7 +5,6 @@ const { Client } = pg;
 
 class DAO {
   constructor() {
-    // Injeta a configuração importada diretamente no cliente do banco
     this.client = new Client(dbConfig);
   }
 

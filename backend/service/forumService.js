@@ -1,5 +1,5 @@
-import DAO from '../repositories/DAO.js';
-import Tag from '../models/Tag.js';
+import DAO from '../repositories/dao.js';
+import Tag from '../models/tag.js';
 import Comment from '../models/Comment.js';
 import { AppError } from '../utils/AppError.js';
 
@@ -25,7 +25,6 @@ export class ForumService {
       }
     }
 
-    // Instancia o modelo Comment
     const novoComentario = new Comment(
       isRoot,                  
       null,                    
