@@ -1,0 +1,67 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 16px; 
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0f0f0; 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 4px #ffffff, 0 0 0 7px var(--azul-escuro); 
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 0;
+}
+
+.bio {
+  color: #4a5568;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  text-align: left; 
+  flex-grow: 1;
+}
+
+.linksContainer {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.linkBadge {
+  background-color: #f8f9fa;
+  color: var(--azul-escuro);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px; 
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.linkBadge:hover {
+  background-color: #275296;
+  color: #ffffff;
+  border-color: #275296;
+  transform: scale(1.05); 
+}
