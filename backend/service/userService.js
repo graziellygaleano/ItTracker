@@ -1,6 +1,6 @@
 import DAO from '../repositories/dao.js';
 import User from '../models/user.js'
-import { AppError } from '../utils/AppError.js';
+import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
 

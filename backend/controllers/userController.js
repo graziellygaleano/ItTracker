@@ -1,7 +1,7 @@
 
 
 import { UserService } from '../service/userService.js';
-import { AppError } from '../utils/AppError.js';
+import { AppError } from '../middlewares/appError.js';
 
 export const userController = {
   async cadastrar(req, res, next) {

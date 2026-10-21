@@ -1,7 +1,7 @@
 import DAO from '../repositories/dao.js';
 import Tag from '../models/tag.js';
 import Comment from '../models/comment.js';
-import { AppError } from '../utils/AppError.js';
+import { AppError } from '../middlewares/appError.js';
 
 const db = new DAO();
 
