@@ -1,3 +1,4 @@
+import user from "../models/user.js";
 class CrudUser {
     constructor(dao) {
         this.dao = dao;
@@ -36,6 +37,7 @@ class CrudUser {
 
         const u = rows[0];
         return new User(u.idUsuario, u.TipoUsuario, u.Nome, u.Username, u.Email, u.Senha, u.Profissao, u.Instituicao);
+    }
       async updateUser(user) {
             return this.dao.transaction(async client => {
                 const usuario = await client.query(
@@ -72,6 +74,7 @@ class CrudUser {
 
                 return 1;
             });
+         }
  async deleteById(id) {
                 return this.dao.transaction(async client => {
                     const result = await client.query(
@@ -90,11 +93,8 @@ class CrudUser {
          WHERE "idPerfil" = $1`,
                         [perfilId]
                     );
-
                     return 1;
                 });
             }
-        }
-}
-}
-        module.exports = CrudUser;
+ }   
+            module.exports = CrudUser;

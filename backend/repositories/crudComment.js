@@ -1,5 +1,4 @@
-
-const Comment = require("../models/Comment");
+import Comment from "../models/comment.js";
 
 class CrudComment {
   constructor(dao) {
@@ -103,15 +102,7 @@ class CrudComment {
     ));
   }
   async getReply(postId) {
-    const sql = 'SELECT
-        r."idResposta" AS id,
-        r."Conteudo" AS content,
-        r."DataPost" AS comment_date,
-        r."Usuario_idUsuario" AS author_id,
-        r."Post_idPost" AS root_post_id
-      FROM public."RespostaPost" r
-      WHERE r."Post_idPost" = $1
-      ORDER BY r."DataPost" ASC';
+    const sql = 'SELECT r."idResposta" AS id, r."Conteudo" AS content, r."DataPost" AS comment_date, r."Usuario_idUsuario" AS author_id, r."Post_idPost" AS root_post_id FROM public."RespostaPost" r WHERE r."Post_idPost" = $1 ORDER BY r."DataPost" ASC';
 
       const rows = await this.dao.queryExecutor(sql, [postId]);
 
