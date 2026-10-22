@@ -4,24 +4,27 @@ import { UserService } from '../service/userService.js';
 import { AppError } from '../middlewares/appError.js';
 
 export const userController = {
-async cadastrar(req, res, next) {
-    try {
-      console.log("1. Chegou no Controller! Dados:", req.body); // Rastreador 1
-      
-      const { email, senha, username } = req.body;
-      if (!username || !email || !senha) {
-        throw new AppError('Nome de usuário, e-mail e senha são obrigatórios.', 400);
-      }
+  async cadastrar(req, res, next) {
+      try {
+        console.log("Chegou no Controller! Dados:", req.body);
+        
+        const { email, senha, username } = req.body;
+        if (!username || !email || !senha) {
+          throw new AppError('Nome de usuário, e-mail e senha são obrigatórios.', 400);
+        }
 
-      console.log("2. Indo para o banco de dados..."); // Rastreador 2
-      await UserService.register(req.body);
-      
-      console.log("3. Voltou do banco de dados!"); // Rastreador 3
-      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
-    } catch (erro) {
-      next(erro);
-    }
-  },
+        // Capture o ID retornado pelo Service
+        const idUsuario = await UserService.register(req.body);
+        
+        // Envie o ID dentro do objeto JSON
+        res.status(201).json({ 
+          mensagem: 'Usuário cadastrado com sucesso.',
+          id: idUsuario 
+        });
+      } catch (erro) {
+        next(erro);
+      }
+    },
 
   async autenticar(req, res, next) {
     try {
