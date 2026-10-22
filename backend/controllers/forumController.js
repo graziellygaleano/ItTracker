@@ -3,33 +3,37 @@ import { AppError } from '../middlewares/appError.js';
 
 export const forumController = {
   async pesquisaGlobal(req, res, next) {
-    try {
-      const { q, tagId } = req.query;
+      try {
+        const { q, tagId, status } = req.query;
 
-      const resultado = await ForumService.globalSearch(q || '', { tagId });
+        const resultado = await ForumService.globalSearch(q || '', { tagId, status });
 
-      const dados = typeof resultado === 'string' ? JSON.parse(resultado) : resultado;
-      
-      res.status(200).json(dados);
-    } catch (erro) {
-      next(erro);
-    }
-  },
+        const dados = typeof resultado === 'string' ? JSON.parse(resultado) : resultado;
+        
+        res.status(200).json(dados);
+      } catch (erro) {
+        next(erro);
+      }
+    },
 
   async criarComentario(req, res, next) {
-    try {
-      const { authorId, content } = req.body;
+      try {
+        const { authorId, content, rootPostId } = req.body;
 
-      if (!authorId || !content) {
-        throw new AppError('O identificador do autor e o conteúdo são obrigatórios.', 400);
+        if (!authorId || !content) {
+          throw new AppError('O identificador do autor e o conteúdo são obrigatórios.', 400);
+        }
+
+        const resultado = await ForumService.createComment(Number(authorId), content, rootPostId);
+        
+        res.status(201).json({ 
+          mensagem: 'Comentário publicado com sucesso.',
+          id: resultado.id
+        });
+      } catch (erro) {
+        next(erro);
       }
-
-      await ForumService.createComment(Number(authorId), content);
-      res.status(201).json({ mensagem: 'Comentário publicado com sucesso.' });
-    } catch (erro) {
-      next(erro);
-    }
-  },
+    },
 
   async removerComentario(req, res, next) {
     try {

@@ -13,18 +13,17 @@ class CrudUser {
                 [
                     user.email || user.emailHash,
                     user.senha || user.passHash,
-                    user.userType ?? 0 // Salva o tipo de usuário ou usa 0 como padrão
+                    user.userType ?? 0 
                 ]
             );
 
             const idGerado = usuarioResult.rows[0].idUsuario;
 
-            // 2. Insere na tabela Perfil apenas com os dados básicos necessários
             await client.query(
                 'INSERT INTO public."Perfil"("idPerfil", "Nome", "Username") VALUES ($1, $2, $3)',
                 [
                     idGerado,
-                    user.name || user.username, // Garante um valor para o Nome caso venha apenas o username
+                    user.name || user.username, 
                     user.username
                 ]
             );

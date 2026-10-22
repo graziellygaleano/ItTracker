@@ -8,7 +8,7 @@ const crudUser = new CrudUser(db);
 
 export class UserService {
   static async updateProfile(userId, field, newValue) {
-    const camposPermitidos = ['name', 'username', 'profession', 'institution'];
+    const camposPermitidos = ['name', 'username', 'profession', 'institution', 'passHash'];
 
     if (!camposPermitidos.includes(field)) {
       throw new AppError(`O campo '${field}' não tem permissão para ser alterado.`, 400);
@@ -96,7 +96,7 @@ export class UserService {
       const { email, senha } = credentials ?? {};
 
       if (!email || !senha) {
-        return null; // Retorna null se faltarem dados
+        return false;
       }
 
       const user = await crudUser.findByCredentials(
@@ -104,8 +104,28 @@ export class UserService {
         senha
       );
 
-      // Se encontrar o usuário, retorna o ID. Se não, retorna null.
-      return user ? user.idUsuario : null;
+      return user;
     }
+
+  async updateStatusComment(postId, status) {
+    console.debug(`[CrudComment:updateStatusComment] Atualizando post ID ${postId} para "tem-respostas" = ${status}`);
+    
+    const sql = `
+      UPDATE public."Post" 
+      SET "tem-respostas" = $1 
+      WHERE "idPost" = $2 
+      RETURNING "idPost"
+    `;
+
+    const rows = await this.dao.queryExecutor(sql, [Number(status), Number(postId)]);
+    
+    if (rows.length === 0) {
+      console.warn(`[CrudComment:updateStatusComment] Post ID ${postId} não encontrado para atualização.`);
+      return false;
+    }
+
+    console.debug(`[CrudComment:updateStatusComment] Post ID ${postId} atualizado com sucesso.`);
+    return true;
+  }
 }
 export default UserService;

@@ -34,17 +34,16 @@ export const userController = {
           throw new AppError('Informe o e-mail e a senha para efetuar o login.', 400);
         }
 
-        // Agora essa variável recebe o ID (ex: 8) ou null
-        const idUsuario = await UserService.autentication(req.body);
+        const autenticado = await UserService.autentication(req.body);
 
-        if (!idUsuario) {
+        if (!autenticado) {
           throw new AppError('Credenciais inválidas. Verifique os dados informados.', 401);
         }
 
         res.status(200).json({
           autenticado: true,
-          mensagem: 'Login realizado com sucesso.',
-          id: idUsuario // Envia o ID para o frontend
+          idUsuario: autenticado.idUsuario,
+          mensagem: 'Login realizado com sucesso.'
         });
       } catch (erro) {
         next(erro);
