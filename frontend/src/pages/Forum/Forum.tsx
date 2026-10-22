@@ -8,10 +8,22 @@ import { PostCard } from "../../components/Forum/PostCard";
 import { UserService } from "../../services/userService"; 
 import styles from "./Forum.module.css";
 
+const API_URL = "http://localhost:3000/api/forum"; 
+
 export function Forum(): React.JSX.Element {
   const [usuarioEstaLogado, setUsuarioEstaLogado] = useState(false);
   const [nomeAutor, setNomeAutor] = useState("");
   const [posts, setPosts] = useState<any[]>([]); 
+
+  const carregarPosts = async () => {
+    try {
+      const resposta = await fetch(`${API_URL}/search`); 
+      const dados = await resposta.json();
+      setPosts(dados);
+    } catch (error) {
+      console.error("Erro ao carregar o mural:", error);
+    }
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -24,19 +36,48 @@ export function Forum(): React.JSX.Element {
           const dados = await UserService.getUser(userId!);
           setNomeAutor(dados.name || dados.username || dados.Nome || dados.Username || "Utilizador");
         } catch (error) {
-          console.error("Erro ao carregar dados no fórum:", error);
+          console.error("Erro ao carregar utilizador:", error);
         }
       }
       carregarDados();
     } else {
       setUsuarioEstaLogado(false);
     }
+
+    carregarPosts();
   }, []);
 
   const handleCriarPost = async (conteudo: string, tags: string[]) => {
-    console.log("Pronto para enviar para o backend:", { conteudo, tags });
-    alert("Função de criar post preparada! Falta ligar à API.");
-    // Aqui chamaremos a API no próximo passo
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
+    try {
+      await fetch(`${API_URL}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          authorId: userId, 
+          content: conteudo 
+        })
+      });
+      
+      alert("Publicação criada com sucesso!");
+      carregarPosts(); 
+      
+    } catch (error) {
+      alert("Ocorreu um erro ao publicar.");
+    }
+  };
+
+  const handleDeletarPost = async (postId: number) => {
+    try {
+      await fetch(`${API_URL}/comments/${postId}`, {
+        method: "DELETE"
+      });
+      carregarPosts(); 
+    } catch (error) {
+      alert("Erro ao tentar apagar a publicação.");
+    }
   };
 
   return (
@@ -58,19 +99,17 @@ export function Forum(): React.JSX.Element {
             </div>
 
             <div className={styles.forumGrid}>
-              <PostCard 
-                autor={nomeAutor} 
-                tags={["Dúvida", "Reservas"]} 
-                conteudo="Alguém sabe me dizer se os Chromebooks da sala 4 já foram devolvidos ao armário?" 
-                isDono={true} 
-              />
-
-              <PostCard 
-                autor="Aron Garcia" 
-                tags={["Aviso", "Atualização"]} 
-                conteudo="Pessoal, acabei de atualizar a planilha de reservas. Verifiquem o sistema, por favor!" 
-                isDono={false} 
-              />
+              {posts.map((post) => (
+                <PostCard 
+                  key={post.commentID}
+                  id={post.commentID}
+                  autor={post.authorId === Number(localStorage.getItem("userId")) ? nomeAutor : `Utilizador ${post.authorId}`} 
+                  tags={[]} 
+                  conteudo={post.content} 
+                  isDono={post.authorId === Number(localStorage.getItem("userId"))} 
+                  onDelete={handleDeletarPost}
+                />
+              ))}
             </div>
           </>
         ) : (

@@ -1,28 +1,32 @@
 import React, { useState } from "react";
 import styles from "./PostCard.module.css";
 
+// 1. Adicionamos o 'id' e a função 'onDelete' às propriedades
 interface PostCardProps {
+  id: number;
   autor: string;
   tags: string[]; 
   conteudo: string;
   isDono: boolean;
+  onDelete: (id: number) => void; 
 }
 
-export function PostCard({ autor, tags, conteudo, isDono }: PostCardProps): React.JSX.Element {
+export function PostCard({ id, autor, tags, conteudo, isDono, onDelete }: PostCardProps): React.JSX.Element {
   const [comentarioAberto, setComentarioAberto] = useState(false);
   const [novoComentario, setNovoComentario] = useState("");
 
-  const inicial = autor.charAt(0).toUpperCase();
+  const inicial = autor ? autor.charAt(0).toUpperCase() : "U";
 
   const handleDeletar = () => {
     if (window.confirm("Tem certeza que deseja apagar esta publicação?")) {
-      console.log("Post apagado!");
+      // 2. Executa a função de apagar passando o ID real do banco de dados
+      onDelete(id); 
     }
   };
 
   const handleEnviarComentario = () => {
     if (novoComentario.trim() === "") return;
-    console.log("Comentário enviado:", novoComentario);
+    alert("Função de responder comentários em desenvolvimento!");
     setNovoComentario("");
     setComentarioAberto(false);
   };
