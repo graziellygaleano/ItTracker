@@ -1,0 +1,92 @@
+.faqSection {
+  background-color: var(--fundo-azul); 
+  padding: 6rem 2rem;
+  width: 100%;
+}
+
+.container {
+  max-width: 900px; 
+  width: 100%;
+  margin: 0 auto;
+}
+
+.titulo {
+  color: var(--amarelo); 
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 3.5rem;
+  text-align: center; 
+}
+
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; 
+}
+
+.item {
+  background-color: #ffffff; 
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); 
+  overflow: hidden; 
+  transition: transform 0.3s ease;
+}
+
+.item:hover {
+  transform: translateY(-3px); 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.iconToggle {
+  color: var(--fundo-azul);
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+  width: 20px;
+  text-align: center;
+}
+
+.numberBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-right: 1.5rem;
+  background-color:var(--fundo-azul); 
+  transition: background-color 0.3s;
+}
+
+.numberBox.active {
+  background-color: var(--amarelo); 
+  color: var(--fundo-azul);
+}
+
+.questionText {
+  color: var(--fundo-azul);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.body {
+  padding: 0 2rem 1.8rem 5.5rem; 
+  color: #4a5568;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}

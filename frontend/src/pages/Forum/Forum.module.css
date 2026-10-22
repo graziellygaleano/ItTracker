@@ -1,0 +1,47 @@
+.forumContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f7fb; 
+}
+
+.mainContent {
+  flex-grow: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 3rem auto; 
+  padding: 0 2rem;
+}
+
+.titulo {
+  color: var(--azul-escuro); 
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px; 
+}
+
+.descricao {
+  color: #64748b;
+  font-size: 1.15rem;
+  margin-bottom: 3.5rem;
+  line-height: 1.6;
+}
+
+.createPostSection {
+  margin-bottom: 3rem; 
+  width: 100%;
+}
+
+.forumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .forumGrid {
+    grid-template-columns: 1fr;
+  }
+}

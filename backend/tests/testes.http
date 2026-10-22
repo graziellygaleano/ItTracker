@@ -1,0 +1,173 @@
+### Variáveis Globais
+@baseUrl = http://localhost:3000/api
+@userId = 8
+@postId = 20
+@tagId = 10
+
+
+# ==========================================
+# FLUXO COMPLETO: POST RAIZ E RESPOSTA
+# ==========================================
+
+### 1. Criar um Post Raiz
+# Ao rodar este request, copie o 'id' retornado na resposta e atualize a variável @postId no topo do arquivo.
+POST {{baseUrl}}/forum/comments
+Content-Type: application/json
+
+{
+  "authorId": {{userId}},
+  "content": "bleh bleh bleh bleh"
+}
+
+### 2. Criar um Comentário (Resposta) no Post Raiz
+# Este request usa o @postId definido nas variáveis globais como o 'rootPostId'.
+POST {{baseUrl}}/forum/comments
+Content-Type: application/json
+
+{
+  "authorId": {{userId}},
+  "content": "Basta usar 'display: flex', 'justify-content: center' e 'align-items: center' no CSS da div pai!",
+  "rootPostId": {{postId}}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ==========================================
+# TESTES DE USUÁRIO (/api/users)
+# ==========================================
+
+### Teste Simples
+GET http://localhost:3000/api
+
+### Cadastrar Novo Usuário
+
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "email": "marialuiza@email.com",
+  "senha": "senha_segura_123",
+  "username": "marialuiza" 
+}
+
+### Autenticar (Login)
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "mariapscatalan@gmail.com",
+  "senha": "13112004"
+}
+
+### Validar Username
+POST {{baseUrl}}/users/check-username
+Content-Type: application/json
+
+{
+  "info": "joaosilva"
+}
+
+### Obter Usuário por ID
+GET {{baseUrl}}/users/{{userId}}
+
+### Atualizar Perfil do Usuário
+PATCH {{baseUrl}}/users/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "field": "profession",
+  "newValue": "Engenheiro de Software"
+}
+
+### Realizar Logout
+POST {{baseUrl}}/users/logout
+
+### Deletar Usuário
+DELETE {{baseUrl}}/users/{{userId}}
+
+
+# ==========================================
+# TESTES DO FÓRUM (/api/forum)
+# ==========================================
+
+### Pesquisa Global (Fórum)
+GET {{baseUrl}}/forum/search?q=ajuda&tagId=1
+
+### Criar Comentário / Post
+POST {{baseUrl}}/forum/comments
+Content-Type: application/json
+
+{
+  "authorId": 8,
+  "content": "a"
+}
+
+### Remover Comentário / Post
+DELETE {{baseUrl}}/forum/comments/{{postId}}
+
+
+
+
+### Verificar se Tag Existe
+GET {{baseUrl}}/forum/tags/exists?tagName=javascript
+
+### Criar Nova Tag
+POST {{baseUrl}}/forum/tags
+Content-Type: application/json
+
+{
+  "tagName": "javascript"
+}
+
+### Associar Tag a um Comentário/Post
+POST {{baseUrl}}/forum/comments/{{postId}}/tags
+Content-Type: application/json
+
+{
+  "tagId": 10
+}
+
+### Desassociar Tag de um Comentário/Post
+DELETE {{baseUrl}}/forum/comments/{{postId}}/tags/{{tagId}}
+
+### Remover Tag do Sistema
+DELETE {{baseUrl}}/forum/tags/{{tagId}}
+
+
+# ==========================================
+# TESTES DE PESQUISA GLOBAL (/api/forum/search)
+# ==========================================
+
+### 1. Pesquisa Global Simples (Apenas termo de busca)
+GET {{baseUrl}}/forum/search?q=CORS
+
+### 2. Pesquisa Global filtrando apenas por Tag
+GET {{baseUrl}}/forum/search?tagId={{tagId}}
+
+### 3. Pesquisa Global filtrando por Posts Respondidos
+GET {{baseUrl}}/forum/search?status=respondidas
+
+### 4. Pesquisa Global filtrando por Posts Não Respondidos
+GET {{baseUrl}}/forum/search?status=nao_respondidas
+
+### 5. Pesquisa Global Completa (Termo + Tag + Status)
+GET {{baseUrl}}/forum/search?q=erro&tagId={{tagId}}&status=nao_respondidas

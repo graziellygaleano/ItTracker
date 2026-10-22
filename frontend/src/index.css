@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--tela-fundo);
+    overflow-x: hidden ;
+}
+
+:root {
+    --fundo-azul: #2a5298;
+    --amarelo: #f1b83a;
+    --azul-escuro: #0d4b8a;
+    --cinza: #ececec;
+    --blocos-texto: #ffffff;
+    --texto-no-azul: white;
+    --texto-padrao: #000000;
+    --tela-fundo: white;
+}

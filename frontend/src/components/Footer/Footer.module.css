@@ -1,0 +1,18 @@
+.footerContainer {
+  background-color: #12305e; 
+  color: white;
+  padding: 0.7rem;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .footerContainer {
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+}
