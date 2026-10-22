@@ -88,7 +88,8 @@ export class UserService {
       throw new AppError('Este nome de usuário já está em uso.', 409);
     }
 
-    await crudUser.createUser(novoUsuario);
+    const idGerado = await crudUser.createUser(novoUsuario);
+    return idGerado; // Adicione este retorno!
   }
 
   static async autentication(credentials) {
