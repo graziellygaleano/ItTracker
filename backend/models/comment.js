@@ -1,5 +1,5 @@
 class Comment {
-  constructor(commentType, commentID, authorId, content, commentDate, hasReplys, rootPostID, authorName = "Utilizador") {
+  constructor(commentType, commentID, authorId, content, commentDate, hasReplys, rootPostID, authorName = "Utilizador", tags = []) {
     this.commentType = commentType;
     this.commentID = commentID;
     this.authorId = authorId;
@@ -8,7 +8,7 @@ class Comment {
     this.hasReplys = hasReplys;
     this.rootPostID = rootPostID;
     this.authorName = authorName; 
-    
+    this.tags = tags; 
   }
 }
 

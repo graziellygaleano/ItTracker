@@ -164,19 +164,24 @@ class CrudComment {
   async globalSearch(q = '', filters = {}) {
     const { status, tagId } = filters;
     
-    // 1. Adicionámos perf."Nome" AS author_name e o LEFT JOIN com a tabela Perfil
     let sql = `
-      SELECT DISTINCT 
+      SELECT 
         p."idPost" AS id, 
         p."Conteudo" AS content, 
         p."DataPost" AS comment_date, 
         p."Usuario_idUsuario" AS author_id, 
         perf."Nome" AS author_name,
         p."idPost" AS root_post_id,
-        (p."tem-respostas" = 1) AS has_replies
+        (p."tem-respostas" = 1) AS has_replies,
+        COALESCE(
+          (SELECT json_agg(t."TipoTag")
+           FROM public."FiltroTags" ft
+           JOIN public."Tags" t ON t."idTag" = ft."idTag"
+           WHERE ft."idPost" = p."idPost"),
+          '[]'::json
+        ) AS tags
       FROM public."Post" p
       LEFT JOIN public."Perfil" perf ON perf."idPerfil" = p."Usuario_idUsuario"
-      LEFT JOIN public."FiltroTags" ft ON ft."idPost" = p."idPost"
       WHERE 1=1
     `;
 
@@ -190,7 +195,10 @@ class CrudComment {
     }
 
     if (tagId) {
-      sql += ` AND ft."idTag" = $${paramIndex}`;
+      sql += ` AND EXISTS (
+        SELECT 1 FROM public."FiltroTags" ft_filter 
+        WHERE ft_filter."idPost" = p."idPost" AND ft_filter."idTag" = $${paramIndex}
+      )`;
       params.push(Number(tagId));
       paramIndex++;
     }
@@ -205,7 +213,6 @@ class CrudComment {
 
     const rows = await this.dao.queryExecutor(sql, params);
 
-    // 2. Enviamos o c.author_name como o último argumento
     return rows.map(c => new Comment(
       "post",
       c.id,
@@ -214,7 +221,8 @@ class CrudComment {
       c.comment_date,
       c.has_replies,
       c.root_post_id,
-      c.author_name 
+      c.author_name,
+      c.tags || []
     ));
   }
 
