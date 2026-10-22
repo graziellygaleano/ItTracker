@@ -24,7 +24,10 @@ export function AuthCard(): React.JSX.Element {
 
     try {
       if (isLogin) {
-        await UserService.autentication({ email, senha });
+        const resposta = await UserService.autentication({ email, senha });
+        
+        localStorage.setItem("userId", resposta.idUsuario); 
+
         setMensagem("Sessão iniciada com sucesso!");
         
         setTimeout(() => {

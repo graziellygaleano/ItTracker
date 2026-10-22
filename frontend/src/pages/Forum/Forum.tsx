@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { GuestCard } from "../../components/Forum/GuestCard";
 import { SearchBar } from "../../components/Forum/SearchBar";     
 import { CreatePost } from "../../components/Forum/CreatePost";   
-import { PostCard } from "../../components/Forum/PostCard"; // Lembre-se de importar o PostCard!
+import { PostCard } from "../../components/Forum/PostCard"; 
+import { UserService } from "../../services/userService"; 
 import styles from "./Forum.module.css";
 
 export function Forum(): React.JSX.Element {
-  const usuarioEstaLogado = true; // Mantemos true para ver o mural
+  const [usuarioEstaLogado, setUsuarioEstaLogado] = useState(false);
+  const [nomeAutor, setNomeAutor] = useState("");
+  const [posts, setPosts] = useState<any[]>([]); 
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    
+    if (userId) {
+      setUsuarioEstaLogado(true);
+      
+      async function carregarDados() {
+        try {
+          const dados = await UserService.getUser(userId!);
+          setNomeAutor(dados.name || dados.username || dados.Nome || dados.Username || "Utilizador");
+        } catch (error) {
+          console.error("Erro ao carregar dados no fórum:", error);
+        }
+      }
+      carregarDados();
+    } else {
+      setUsuarioEstaLogado(false);
+    }
+  }, []);
+
+  const handleCriarPost = async (conteudo: string, tags: string[]) => {
+    console.log("Pronto para enviar para o backend:", { conteudo, tags });
+    alert("Função de criar post preparada! Falta ligar à API.");
+    // Aqui chamaremos a API no próximo passo
+  };
 
   return (
     <div className={styles.forumContainer}>
@@ -24,15 +53,13 @@ export function Forum(): React.JSX.Element {
           <>
             <SearchBar />
 
-            {/* 1. CAIXA DE CRIAR POST (Linha inteira no topo) */}
             <div className={styles.createPostSection}>
-              <CreatePost />
+              <CreatePost autorNome={nomeAutor} onPostCreated={handleCriarPost} />
             </div>
 
-            {/* 2. MURAL DE POSTS PUBLICADOS (Grelha em baixo) */}
             <div className={styles.forumGrid}>
               <PostCard 
-                autor="Malu Catalan" 
+                autor={nomeAutor} 
                 tags={["Dúvida", "Reservas"]} 
                 conteudo="Alguém sabe me dizer se os Chromebooks da sala 4 já foram devolvidos ao armário?" 
                 isDono={true} 

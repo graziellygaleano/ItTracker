@@ -7,17 +7,20 @@ const TAGS_DISPONIVEIS = [
   "Dispositivos", "Reservas"
 ];
 
-export function CreatePost(): React.JSX.Element {
+interface CreatePostProps {
+  autorNome: string;
+  onPostCreated: (conteudo: string, tags: string[]) => void;
+}
+
+export function CreatePost({ autorNome, onPostCreated }: CreatePostProps): React.JSX.Element {
   const [conteudo, setConteudo] = useState("");
   const [tagsSelecionadas, setTagsSelecionadas] = useState<string[]>([]);
+  const inicial = autorNome ? autorNome.charAt(0).toUpperCase() : "U";
 
   const handleToggleTag = (tagClicada: string) => {
-    // Se a tag já estiver selecionada, remove-a
     if (tagsSelecionadas.includes(tagClicada)) {
       setTagsSelecionadas(tagsSelecionadas.filter(tag => tag !== tagClicada));
-    } 
-    // Se não estiver e o limite ainda não foi atingido, adiciona-a
-    else if (tagsSelecionadas.length < 2) {
+    } else if (tagsSelecionadas.length < 2) {
       setTagsSelecionadas([...tagsSelecionadas, tagClicada]);
     }
   };
@@ -25,17 +28,20 @@ export function CreatePost(): React.JSX.Element {
   const handlePublicar = () => {
     if (conteudo.trim() === "") return;
     
-    console.log("Publicando:", conteudo, "Tags:", tagsSelecionadas);
+    onPostCreated(conteudo, tagsSelecionadas);
     
-    // Limpa o formulário após publicar
     setConteudo("");
     setTagsSelecionadas([]);
-    alert("Post publicado com sucesso!");
   };
 
   return (
     <div className={styles.createCard}>
-      <h3 className={styles.authorName}>Malu Catalan</h3>
+      
+      {/* Cabeçalho corrigido: o {inicial} vai dentro da div do avatar! */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+        <div className={styles.avatar}>{inicial}</div>
+        <h3 className={styles.authorName} style={{ margin: 0 }}>{autorNome}</h3>
+      </div>
       
       <textarea 
         className={styles.textArea} 

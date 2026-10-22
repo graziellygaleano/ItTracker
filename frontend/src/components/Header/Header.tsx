@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { UserService } from "../../services/userService";
 import styles from "./Header.module.css";
 
 export function Header(): React.JSX.Element {
-  const usuarioEstaLogado = true; 
+  const [usuarioEstaLogado, setUsuarioEstaLogado] = useState(false);
+  const [inicialUsuario, setInicialUsuario] = useState("U"); 
 
-  // No futuro, quando a API estiver ligada, você vai pegar a primeira letra 
-  // do nome do utilizador que veio do banco de dados (ex: usuario.nome.charAt(0))
-  const inicialUsuario = "M"; 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+      setUsuarioEstaLogado(true);
+      
+      async function carregarDadosHeader() {
+        try {
+          const dados = await UserService.getUser(userId!);
+          const nome = dados.name || dados.username || dados.Nome || dados.Username || "U";
+          setInicialUsuario(nome.charAt(0).toUpperCase());
+        } catch (error) {
+          console.error("Erro ao carregar dados no header:", error);
+        }
+      }
+      
+      carregarDadosHeader();
+    } else {
+      setUsuarioEstaLogado(false);
+    }
+  }, []);
 
   return (
     <header className={styles.headerContainer}>
@@ -32,7 +52,9 @@ export function Header(): React.JSX.Element {
             </div>
           </Link>
         ) : (
-          <div style={{ width: "42px" }}></div>
+          <Link to="/auth" style={{ textDecoration: 'none', color: '#fff', fontWeight: 'bold' }}>
+            Entrar
+          </Link>
         )}
       </div>
 

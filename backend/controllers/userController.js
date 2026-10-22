@@ -42,6 +42,7 @@ export const userController = {
 
       res.status(200).json({
         autenticado: true,
+        idUsuario: autenticado.idUsuario,
         mensagem: 'Login realizado com sucesso.'
       });
     } catch (erro) {

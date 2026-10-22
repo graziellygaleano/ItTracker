@@ -8,7 +8,7 @@ const crudUser = new CrudUser(db);
 
 export class UserService {
   static async updateProfile(userId, field, newValue) {
-    const camposPermitidos = ['name', 'username', 'profession', 'institution'];
+    const camposPermitidos = ['name', 'username', 'profession', 'institution', 'passHash'];
 
     if (!camposPermitidos.includes(field)) {
       throw new AppError(`O campo '${field}' não tem permissão para ser alterado.`, 400);
@@ -104,7 +104,7 @@ export class UserService {
       senha
     );
 
-    return Boolean(user);
+    return user;
   }
 
   static async logOut() {
