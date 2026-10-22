@@ -121,20 +121,33 @@ class CrudComment {
 
   async getReply(postId) {
     console.debug(`[CrudComment:getReply] Buscando respostas vinculadas ao post ID: ${postId}`);
-    const sql = 'SELECT r."idResposta" AS id, r."Conteudo" AS content, r."DataPost" AS comment_date, r."Usuario_idUsuario" AS author_id, r."Post_idPost" AS root_post_id FROM public."RespostaPost" r WHERE r."Post_idPost" = $1 ORDER BY r."DataPost" ASC';
+    const sql = `
+  SELECT
+    r."idResposta" AS id,
+    r."Conteudo" AS content,
+    r."DataPost" AS comment_date,
+    r."Usuario_idUsuario" AS author_id,
+    perf."Nome" AS author_name,
+    r."Post_idPost" AS root_post_id
+  FROM public."RespostaPost" r
+  LEFT JOIN public."Perfil" perf ON perf."idPerfil" = r."Usuario_idUsuario"
+  WHERE r."Post_idPost" = $1
+  ORDER BY r."DataPost" ASC
+`;
 
     const rows = await this.dao.queryExecutor(sql, [postId]);
     console.debug(`[CrudComment:getReply] Total de respostas encontradas para o post ID ${postId}: ${rows.length}`);
 
     return rows.map(c => new Comment(
-      "resposta",
-      c.id,
-      c.author_id,
-      c.content,
-      c.comment_date,
-      false,
-      c.root_post_id
-    ));
+  "resposta",
+  c.id,
+  c.author_id,
+  c.content,
+  c.comment_date,
+  false,
+  c.root_post_id,
+  c.author_name   // <-- novo
+));
   }
 
   async deleteById(id, type = "post") {

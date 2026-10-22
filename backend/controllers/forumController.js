@@ -120,5 +120,15 @@ export const forumController = {
     } catch (erro) {
       next(erro);
     }
+  },
+
+  async listarRespostas(req, res, next) {
+  try {
+    const { postId } = req.params;
+    const respostas = await ForumService.getReplies(postId);
+    res.status(200).json(respostas);
+  } catch (erro) {
+    next(erro);
   }
+},
 };

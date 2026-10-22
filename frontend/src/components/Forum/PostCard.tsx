@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./PostCard.module.css";
+
+const API_URL = "http://localhost:3000/api/forum";
 
 interface Comentario {
   id: number;
@@ -13,6 +15,7 @@ interface PostCardProps {
   tags: string[]; 
   conteudo: string;
   isDono: boolean;
+  comentariosIniciais?: Comentario[];
   onDelete: (id: number) => void; 
   onReply: (postId: number, texto: string) => void; 
 }
@@ -21,6 +24,25 @@ export function PostCard({ id, autor, tags, conteudo, isDono, onDelete, onReply 
   const [comentarioAberto, setComentarioAberto] = useState(false);
   const [novoComentario, setNovoComentario] = useState("");
   const [listaComentarios, setListaComentarios] = useState<Comentario[]>([]);
+
+  useEffect(() => {
+  async function carregarRespostas() {
+    try {
+      const resposta = await fetch(`${API_URL}/comments/${id}/replies`);
+      const dados = await resposta.json();
+      setListaComentarios(
+        dados.map((r: any) => ({
+          id: r.commentID,
+          texto: r.content,
+          autor: r.authorName,
+        }))
+      );
+    } catch (error) {
+      console.error("Erro ao carregar respostas:", error);
+    }
+  }
+  carregarRespostas();
+}, [id]);
 
   const inicial = autor ? autor.charAt(0).toUpperCase() : "U";
 
@@ -71,8 +93,8 @@ export function PostCard({ id, autor, tags, conteudo, isDono, onDelete, onReply 
         {conteudo}
       </div>
 
-      {listaComentarios.length > 0 && (
-        <div style={{ margin: '1rem 0', paddingLeft: '1rem', borderLeft: '3px solid #275296' }}>
+      {comentarioAberto && listaComentarios.length > 0 && (
+  <div style={{ margin: '1rem 0', paddingLeft: '1rem', borderLeft: '3px solid #275296' }}>
           {listaComentarios.map((c) => (
             <div key={c.id} style={{ fontSize: '0.95rem', marginBottom: '0.5rem', color: '#334155' }}>
               <strong>{c.autor}:</strong> {c.texto}

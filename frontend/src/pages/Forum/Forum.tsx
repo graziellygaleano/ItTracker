@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
-import { GuestCard } from "../../components/Forum/GuestCard";
-import { SearchBar } from "../../components/Forum/SearchBar";     
+import { GuestCard } from "../../components/Forum/GuestCard";    
 import { CreatePost } from "../../components/Forum/CreatePost";   
 import { PostCard } from "../../components/Forum/PostCard"; 
 import { UserService } from "../../services/userService"; 
@@ -136,7 +135,6 @@ export function Forum(): React.JSX.Element {
 
         {usuarioEstaLogado ? (
           <>
-            <SearchBar />
 
             <div className={styles.createPostSection}>
               <CreatePost autorNome={nomeAutor} onPostCreated={handleCriarPost} />

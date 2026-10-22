@@ -11,6 +11,7 @@ router.post('/comments', forumController.criarComentario);
 router.delete('/comments/:postId', forumController.removerComentario);
 router.post('/comments/:postId/tags', forumController.associarTag);
 router.delete('/comments/:postId/tags/:tagId', forumController.desassociarTag);
+router.get('/comments/:postId/replies', forumController.listarRespostas);
 
 // Operações sobre Etiquetas (Tags)
 router.get('/tags/exists', forumController.verificarTag);
