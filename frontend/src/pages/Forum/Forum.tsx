@@ -52,18 +52,40 @@ export function Forum(): React.JSX.Element {
     if (!userId) return;
 
     try {
-      await fetch(`${API_URL}/comments`, {
+      const respostaPost = await fetch(`${API_URL}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          authorId: userId, 
-          content: conteudo 
-        })
+        body: JSON.stringify({ authorId: userId, content: conteudo })
       });
+      
+      const dadosPost = await respostaPost.json();
+      const novoPostId = dadosPost.id; 
+
+      const tagMap: { [key: string]: number } = {
+        "Dúvida": 1,
+        "Informação": 2,
+        "Aviso": 3,
+        "Login/Cadastro": 4,
+        "Atualização": 5,
+        "Dispositivos": 6,
+        "Reservas": 7
+      };
+
+      if (novoPostId && tags.length > 0) {
+        for (const nomeTag of tags) {
+          const tagId = tagMap[nomeTag];
+          if (tagId) {
+            await fetch(`${API_URL}/comments/${novoPostId}/tags`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ tagId: tagId })
+            });
+          }
+        }
+      }
       
       alert("Publicação criada com sucesso!");
       carregarPosts(); 
-      
     } catch (error) {
       alert("Ocorreu um erro ao publicar.");
     }
@@ -77,6 +99,28 @@ export function Forum(): React.JSX.Element {
       carregarPosts(); 
     } catch (error) {
       alert("Erro ao tentar apagar a publicação.");
+    }
+  };
+
+  const handleResponderPost = async (postId: number, texto: string) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
+    try {
+      await fetch(`${API_URL}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          authorId: userId, 
+          content: texto,
+          rootPostId: postId 
+        })
+      });
+      
+      alert("Comentário enviado com sucesso!");
+      carregarPosts(); 
+    } catch (error) {
+      alert("Erro ao enviar o comentário.");
     }
   };
 
@@ -103,11 +147,12 @@ export function Forum(): React.JSX.Element {
                 <PostCard 
                   key={post.commentID}
                   id={post.commentID}
-                  autor={post.authorId === Number(localStorage.getItem("userId")) ? nomeAutor : `Utilizador ${post.authorId}`} 
-                  tags={[]} 
+                  autor={post.authorName || `Utilizador ${post.authorId}`}
+                  tags={post.tags || []} 
                   conteudo={post.content} 
                   isDono={post.authorId === Number(localStorage.getItem("userId"))} 
                   onDelete={handleDeletarPost}
+                  onReply={handleResponderPost} 
                 />
               ))}
             </div>

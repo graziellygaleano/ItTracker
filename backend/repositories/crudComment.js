@@ -163,17 +163,19 @@ class CrudComment {
 
   async globalSearch(q = '', filters = {}) {
     const { status, tagId } = filters;
-    console.debug(`[CrudComment:globalSearch] Iniciando pesquisa global. Termo de busca: "${q}", Filtros:`, filters);
     
+    // 1. Adicionámos perf."Nome" AS author_name e o LEFT JOIN com a tabela Perfil
     let sql = `
       SELECT DISTINCT 
         p."idPost" AS id, 
         p."Conteudo" AS content, 
         p."DataPost" AS comment_date, 
         p."Usuario_idUsuario" AS author_id, 
+        perf."Nome" AS author_name,
         p."idPost" AS root_post_id,
         (p."tem-respostas" = 1) AS has_replies
       FROM public."Post" p
+      LEFT JOIN public."Perfil" perf ON perf."idPerfil" = p."Usuario_idUsuario"
       LEFT JOIN public."FiltroTags" ft ON ft."idPost" = p."idPost"
       WHERE 1=1
     `;
@@ -184,30 +186,26 @@ class CrudComment {
     if (q && q.trim() !== '') {
       sql += ` AND p."Conteudo" ILIKE $${paramIndex}`;
       params.push(`%${q.trim()}%`);
-      console.debug(`[CrudComment:globalSearch] Aplicando filtro de texto ($${paramIndex}): %${q.trim()}%`);
       paramIndex++;
     }
 
     if (tagId) {
       sql += ` AND ft."idTag" = $${paramIndex}`;
       params.push(Number(tagId));
-      console.debug(`[CrudComment:globalSearch] Aplicando filtro de tag ($${paramIndex}): ${tagId}`);
       paramIndex++;
     }
 
     if (status === 'respondidas') {
       sql += ` AND p."tem-respostas" = 1`;
-      console.debug(`[CrudComment:globalSearch] Aplicando filtro de status: respondidas`);
     } else if (status === 'nao_respondidas') {
       sql += ` AND (p."tem-respostas" IS NULL OR p."tem-respostas" != 1)`;
-      console.debug(`[CrudComment:globalSearch] Aplicando filtro de status: nao_respondidas`);
     }
 
     sql += ` ORDER BY p."DataPost" DESC`;
 
     const rows = await this.dao.queryExecutor(sql, params);
-    console.debug(`[CrudComment:globalSearch] Busca global finalizada. Registros encontrados: ${rows.length}`);
 
+    // 2. Enviamos o c.author_name como o último argumento
     return rows.map(c => new Comment(
       "post",
       c.id,
@@ -215,7 +213,8 @@ class CrudComment {
       c.content,
       c.comment_date,
       c.has_replies,
-      c.root_post_id
+      c.root_post_id,
+      c.author_name 
     ));
   }
 

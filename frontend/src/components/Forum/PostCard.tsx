@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "./PostCard.module.css";
 
-// 1. Adicionamos o 'id' e a função 'onDelete' às propriedades
+interface Comentario {
+  id: number;
+  texto: string;
+  autor: string;
+}
+
 interface PostCardProps {
   id: number;
   autor: string;
@@ -9,26 +14,33 @@ interface PostCardProps {
   conteudo: string;
   isDono: boolean;
   onDelete: (id: number) => void; 
+  onReply: (postId: number, texto: string) => void; 
 }
 
-export function PostCard({ id, autor, tags, conteudo, isDono, onDelete }: PostCardProps): React.JSX.Element {
+export function PostCard({ id, autor, tags, conteudo, isDono, onDelete, onReply }: PostCardProps): React.JSX.Element {
   const [comentarioAberto, setComentarioAberto] = useState(false);
   const [novoComentario, setNovoComentario] = useState("");
+  const [listaComentarios, setListaComentarios] = useState<Comentario[]>([]);
 
   const inicial = autor ? autor.charAt(0).toUpperCase() : "U";
 
   const handleDeletar = () => {
     if (window.confirm("Tem certeza que deseja apagar esta publicação?")) {
-      // 2. Executa a função de apagar passando o ID real do banco de dados
       onDelete(id); 
     }
   };
 
   const handleEnviarComentario = () => {
     if (novoComentario.trim() === "") return;
-    alert("Função de responder comentários em desenvolvimento!");
+    
+    onReply(id, novoComentario);
+
+    setListaComentarios([
+      ...listaComentarios, 
+      { id: Date.now(), texto: novoComentario, autor: "Você" }
+    ]);
+    
     setNovoComentario("");
-    setComentarioAberto(false);
   };
 
   return (
@@ -59,6 +71,16 @@ export function PostCard({ id, autor, tags, conteudo, isDono, onDelete }: PostCa
         {conteudo}
       </div>
 
+      {listaComentarios.length > 0 && (
+        <div style={{ margin: '1rem 0', paddingLeft: '1rem', borderLeft: '3px solid #275296' }}>
+          {listaComentarios.map((c) => (
+            <div key={c.id} style={{ fontSize: '0.95rem', marginBottom: '0.5rem', color: '#334155' }}>
+              <strong>{c.autor}:</strong> {c.texto}
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className={styles.footer}>
         <button 
           className={styles.commentToggleBtn}
@@ -67,7 +89,7 @@ export function PostCard({ id, autor, tags, conteudo, isDono, onDelete }: PostCa
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path>
           </svg>
-          Comentar
+          Comentar ({listaComentarios.length})
         </button>
 
         {comentarioAberto && (

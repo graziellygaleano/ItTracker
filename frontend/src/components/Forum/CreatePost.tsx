@@ -37,7 +37,6 @@ export function CreatePost({ autorNome, onPostCreated }: CreatePostProps): React
   return (
     <div className={styles.createCard}>
       
-      {/* Cabeçalho corrigido: o {inicial} vai dentro da div do avatar! */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
         <div className={styles.avatar}>{inicial}</div>
         <h3 className={styles.authorName} style={{ margin: 0 }}>{autorNome}</h3>
