@@ -93,23 +93,22 @@ export class UserService {
   }
 
   static async autentication(credentials) {
-    const { email, senha } = credentials ?? {};
+      const { email, senha } = credentials ?? {};
 
-    if (!email || !senha) {
-      return false;
-    }
+      if (!email || !senha) {
+        return false;
+      }
 
-    const user = await crudUser.findByCredentials(
-      email,
-      senha
-    );
+      const user = await crudUser.findByCredentials(
+        email,
+        senha
+      );
 
-    return user;
+    return Boolean(user);
   }
 
   static async logOut() {
     return;
   }
 }
-
 export default UserService;

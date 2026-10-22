@@ -27,28 +27,28 @@ export const userController = {
     },
 
   async autenticar(req, res, next) {
-    try {
-      const { email, senha } = req.body;
+      try {
+        const { email, senha } = req.body;
 
-      if (!email || !senha) {
-        throw new AppError('Informe o e-mail e a senha para efetuar o login.', 400);
+        if (!email || !senha) {
+          throw new AppError('Informe o e-mail e a senha para efetuar o login.', 400);
+        }
+
+        const autenticado = await UserService.autentication(req.body);
+
+        if (!autenticado) {
+          throw new AppError('Credenciais inválidas. Verifique os dados informados.', 401);
+        }
+
+        res.status(200).json({
+          autenticado: true,
+          idUsuario: autenticado.idUsuario,
+          mensagem: 'Login realizado com sucesso.'
+        });
+      } catch (erro) {
+        next(erro);
       }
-
-      const autenticado = await UserService.autentication(req.body);
-
-      if (!autenticado) {
-        throw new AppError('Credenciais inválidas. Verifique os dados informados.', 401);
-      }
-
-      res.status(200).json({
-        autenticado: true,
-        idUsuario: autenticado.idUsuario,
-        mensagem: 'Login realizado com sucesso.'
-      });
-    } catch (erro) {
-      next(erro);
-    }
-  },
+    },
 
   async logout(req, res, next) {
     try {
